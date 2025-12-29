@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand Colors -->
+    <color name="colorPrimary">#1976D2</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#448AFF</color>
+
+    <!-- Dynamic Backgrounds (Dark) -->
+    <color name="primary_bg">#000000</color>       <!-- মেইন স্ক্রিন কালো -->
+    <color name="secondary_bg">#121212</color>     <!-- লিস্ট আইটেম ডার্ক গ্রে -->
+    <color name="popup_bg">#1E1E1E</color>         <!-- পপআপ মেনু একটু হালকা কালো -->
+    
+    <!-- Dynamic Text & Icons (Dark) -->
+    <color name="primary_text">#FFFFFF</color>     <!-- সাদা লেখা -->
+    <color name="secondary_text">#B3B3B3</color>   <!-- হালকা ধূসর লেখা -->
+    
+    <!-- Others -->
+    <color name="divider">#1FFFFFFF</color>        <!-- হালকা সাদা বর্ডার -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="ripple_color">#42FFFFFF</color>
+</resources>

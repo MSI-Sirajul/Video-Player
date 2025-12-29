@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/_250sdp"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/secondary_bg"
+    app:cardCornerRadius="@dimen/_15sdp"
+    app:cardElevation="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="@dimen/_20sdp">
+
+        <ImageView
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginBottom="@dimen/_10sdp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Video Player Pro"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/_16ssp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Version: 1.0"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/_10ssp"
+            android:layout_marginBottom="@dimen/_5sdp"/>
+
+        <TextView
+            android:id="@+id/tv_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Device: Model"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/_10ssp"
+            android:layout_marginBottom="@dimen/_15sdp"/>
+
+        <!-- Developer Info -->
+        <TextView
+            android:id="@+id/tv_developer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Developer: MSI-Sirajul"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/_5sdp"/>
+
+        <!-- GitHub Link -->
+        <TextView
+            android:id="@+id/tv_github_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="https://github.com/MSI-Sirajul/Video-Player-Pro/"
+            android:textColor="#2196F3"
+            android:textSize="@dimen/_10ssp"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"/>
+
+        <!-- Social Icons -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_15sdp">
+
+            <ImageView
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:src="@drawable/ic_web"
+                android:layout_marginEnd="@dimen/_15sdp"/>
+
+            <ImageView
+                android:layout_width="@dimen/_24sdp"
+                android:layout_height="@dimen/_24sdp"
+                android:src="@drawable/ic_telegram"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

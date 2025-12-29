@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- এখানে সরাসরি কালার কোড না দিয়ে ভেরিয়েবল ব্যবহার করা হয়েছে -->
+    <solid android:color="@color/popup_bg"/> 
+    <corners android:radius="@dimen/_8sdp"/>
+    <stroke android:width="1dp" android:color="@color/divider"/>
+</shape>

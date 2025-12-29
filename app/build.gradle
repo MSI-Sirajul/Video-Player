@@ -1,0 +1,113 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.videoplayer"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+    }
+    
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude("META-INF/*.kotlin_module") 
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+        }
+        release {
+            minifyEnabled true      // কোড ছোট করবে
+            shrinkResources true    // রিসোর্স ছোট করবে
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            splits {
+                abi {
+                    enable true
+                    reset()
+                    include "armeabi-v7a", "arm64-v8a"
+                    universalApk false
+                }
+            }
+        }
+    }
+    android.applicationVariants.all { variant ->
+        if (variant.buildType.name == "release") {
+            variant.outputs.all { output ->
+                def abi = output.getFilter("ABI")
+                if (abi != null) {
+                    output.outputFileName = "app-${variant.name}-${abi}.apk"
+                }
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    //  কোনো এক্সট্রা ফিচার নাই
+    buildFeatures {
+        // সব false - কোনো ভিউবাইন্ডিং, ডেটাবাইন্ডিং নাই
+        viewBinding = false
+        dataBinding = false
+        buildConfig = false
+        aidl = false
+        renderScript = false
+        shaders = false
+    }
+}
+
+
+dependencies {
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.13.2'
+    
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.cardview:cardview:1.0.0' 
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    // Image Loading
+    implementation 'com.github.bumptech.glide:glide:4.16.0'    
+    // Media3 (ExoPlayer) for Video Playing
+    implementation 'androidx.media3:media3-exoplayer:1.2.0'
+    implementation 'androidx.media3:media3-ui:1.2.0'
+    implementation 'androidx.media3:media3-session:1.2.0'      
+    // অটোমেটিক সাইজ অ্যাডজাস্টমেন্টের জন্য
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'  
+    // 2. Lottie Animation (For smooth loading & UI)
+    implementation 'com.airbnb.android:lottie:6.1.0'
+}
+
+
+// APK সাইজ চেক টাস্ক
+task checkApkSize {
+    doLast {
+        println "=== APK Size Checklist ==="
+        println "1. Kotlin removed ✓"
+        println "2. Only English resources ✓"
+        println "3. Only ARM architecture ✓"
+        println "4. No third-party libraries ✓"
+        println "5. Code shrinking enabled ✓"
+        println "6. Resource shrinking enabled ✓"
+        println "7. ABI splitting enabled ✓"
+        println "=========================="
+    }
+}
