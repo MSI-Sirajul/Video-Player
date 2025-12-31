@@ -11,14 +11,20 @@ A powerful, highly optimized, and feature-rich Android Video Player built using 
 **Project Link:** [Video-Player](https://github.com/MSI-Sirajul/Video-Player)
 
 ## App Previews
-
-| Home Screen | Video Player | Settings Menu |
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><b>Player</b></td>
+    </tr>
+      <td>
+        <!-- নিচের লিংকে আপনার স্ক্রিনশট বসান -->
+        <img src="https://raw.githubusercontent.com/MSI-Sirajul/Video-Player/refs/heads/main/asset/player.jpg" width="auto" alt="Home Screen" />
+      </td>
+</table>
+</div>
+| All Video | Folder | Settings |
 |:---:|:---:|:---:|
-| ![Home](asset/image1.png) | ![Player](screenshots/image3.png) | ![Settings](screenshots/settings.png) |
-
-| Mini Player | Audio Booster | Folder View |
-|:---:|:---:|:---:|
-| ![MiniPlayer](asset/image2.png) | ![Booster](screenshots/booster.png) | ![Folder](screenshots/folder.png) |
+| ![Home](https://raw.githubusercontent.com/MSI-Sirajul/Video-Player/refs/heads/main/asset/list.jpg) | ![Player](https://raw.githubusercontent.com/MSI-Sirajul/Video-Player/refs/heads/main/asset/folder.jpg) | ![Settings](https://raw.githubusercontent.com/MSI-Sirajul/Video-Player/refs/heads/main/asset/setting.jpg) |
 
 *(Note: Please upload screenshots to a 'screenshots' folder in your repository to make these images visible.)*
 
