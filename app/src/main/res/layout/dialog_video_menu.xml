@@ -50,7 +50,7 @@
                 android:layout_width="@dimen/_22sdp"
                 android:layout_height="@dimen/_22sdp"
                 android:src="@drawable/exo_icon_play"
-                app:tint="#2196F3"/> <!-- Blue -->
+                app:tint="#2196F3"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
                 android:layout_width="@dimen/_22sdp"
                 android:layout_height="@dimen/_22sdp"
                 android:src="@drawable/ic_info"
-                app:tint="#2196F3"/> <!-- Blue -->
+                app:tint="#2196F3"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,33 +87,9 @@
                 android:layout_marginStart="@dimen/_15sdp"/>
         </LinearLayout>
 
-        <!-- 3. File Path Option -->
-        <LinearLayout
-            android:id="@+id/menu_item_path"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="@dimen/_20sdp"
-            android:paddingVertical="@dimen/_10sdp"
-            android:background="?attr/selectableItemBackground">
+        <!-- (Path Option Removed) -->
 
-            <ImageView
-                android:layout_width="@dimen/_22sdp"
-                android:layout_height="@dimen/_22sdp"
-                android:src="@drawable/ic_folder_tab"
-                app:tint="#4CAF50"/> <!-- Green -->
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="File Location"
-                android:textColor="@color/primary_text"
-                android:textSize="@dimen/_12ssp"
-                android:layout_marginStart="@dimen/_15sdp"/>
-        </LinearLayout>
-
-        <!-- 4. Delete Option -->
+        <!-- 3. Delete Option -->
         <LinearLayout
             android:id="@+id/menu_item_delete"
             android:layout_width="match_parent"
@@ -128,7 +104,7 @@
                 android:layout_width="@dimen/_22sdp"
                 android:layout_height="@dimen/_22sdp"
                 android:src="@drawable/ic_close"
-                app:tint="#F44336"/> <!-- Red -->
+                app:tint="#F44336"/> 
 
             <TextView
                 android:layout_width="wrap_content"

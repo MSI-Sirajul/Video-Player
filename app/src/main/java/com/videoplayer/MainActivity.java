@@ -40,6 +40,7 @@ import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
+    // ViewPager components
     private ViewPager2 viewPager;
     private MainPagerAdapter pagerAdapter;
     private ImageView dot1, dot2;
@@ -53,25 +54,34 @@ public class MainActivity extends AppCompatActivity {
     private ImageView miniPlay, miniNext, miniPrev, miniClose, miniArt; 
     private TextView miniTitle;
     
+    // Database & Logic
     private VideoDatabaseHelper dbHelper;
     private SettingsManager settingsManager;
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
+    // Service Connection
     private PlaybackService playbackService;
     private boolean isBound = false;
 
-    private static final String PERMISSION_READ_MEDIA_VIDEO = "android.permission.READ_MEDIA_VIDEO";
-    private static final String PERMISSION_READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
+    // FIX: পারমিশন স্ট্রিং সরাসরি ব্যবহার করা হচ্ছে এরর এড়াতে
+    private static final String PERM_READ_MEDIA_VIDEO = "android.permission.READ_MEDIA_VIDEO";
+    private static final String PERM_READ_EXTERNAL_STORAGE = "android.permission.READ_EXTERNAL_STORAGE";
 
     // Player Listener
     private Player.Listener playerListener = new Player.Listener() {
         @Override
-        public void onIsPlayingChanged(boolean isPlaying) { updateMiniPlayer(); }
+        public void onIsPlayingChanged(boolean isPlaying) {
+            updateMiniPlayer();
+        }
         @Override
-        public void onMediaItemTransition(MediaItem mediaItem, int reason) { updateMiniPlayer(); }
+        public void onMediaItemTransition(MediaItem mediaItem, int reason) {
+            updateMiniPlayer();
+        }
         @Override
         public void onPlaybackStateChanged(int state) {
-            if (state == Player.STATE_ENDED) miniPlayerLayout.setVisibility(View.GONE);
+            if (state == Player.STATE_ENDED) {
+                miniPlayerLayout.setVisibility(View.GONE);
+            }
             updateMiniPlayer();
         }
     };
@@ -86,17 +96,22 @@ public class MainActivity extends AppCompatActivity {
             updateMiniPlayer();
         }
         @Override
-        public void onServiceDisconnected(ComponentName name) { isBound = false; }
+        public void onServiceDisconnected(ComponentName name) {
+            isBound = false;
+        }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Theme Apply (Before setContentView)
         settingsManager = new SettingsManager(this);
-        applyTheme(); // Apply Theme
+        applyTheme(); 
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         dbHelper = new VideoDatabaseHelper(this);
+        
         initViews();
         checkPermissions();
         
@@ -111,17 +126,14 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PlaybackService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         if(isBound && playbackService != null) {
             updateMiniPlayer();
         }
-        
-        // FIX: এখানে scanStorageInBackground() কল করবেন না। এটি স্লো করে দেয়।
-        // শুধু refreshFragments() কল করুন। এটি ফ্রাগমেন্টের loadVideos() কল করবে।
-        // যেহেতু loadVideos() এখন স্মার্ট (Adapter Reuse), তাই ফ্লিকার হবে না।
-        
+        // Refresh fragments if settings changed elsewhere
         refreshFragments();
     }
 
@@ -135,9 +147,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    
     private void initViews() {
-        // 1. ViewPager & Tabs Setup
         viewPager = findViewById(R.id.view_pager);
         dot1 = findViewById(R.id.dot_1);
         dot2 = findViewById(R.id.dot_2);
@@ -154,11 +164,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // 2. Standard Views
         tvTitle = findViewById(R.id.tv_app_title);
+        // Search bar removed, keeping variable just in case, but logic removed
         lottieLoading = findViewById(R.id.lottie_loading);
         
-        // 3. Mini Player Views
+        // Mini Player Views
         miniPlayerLayout = findViewById(R.id.miniPlayerLayout);
         miniArt = findViewById(R.id.mini_art);
         miniPlay = findViewById(R.id.mini_play);
@@ -169,25 +179,19 @@ public class MainActivity extends AppCompatActivity {
 
         setupMiniPlayerControls();
 
-        // 4. Header Buttons Logic
-        
-        // Settings Button -> Opens SettingsActivity
         ImageView btnSettings = findViewById(R.id.btn_settings);
         if(btnSettings != null) {
             btnSettings.setOnClickListener(v -> {
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             });
         }
-
-        // Search Button -> Opens SearchActivity (NEW)
+        
         ImageView btnSearch = findViewById(R.id.btn_search);
         if(btnSearch != null) {
             btnSearch.setOnClickListener(v -> {
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
             });
         }
-        
-        // NOTE: Old EditText search logic removed completely.
     }
     
     private void updateDots(int position) {
@@ -200,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // --- REFRESH FRAGMENTS ---
+    // --- REFRESH LOGIC ---
     private void refreshFragments() {
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             if (fragment instanceof VideoFragment) {
@@ -252,47 +256,30 @@ public class MainActivity extends AppCompatActivity {
                 && playbackService.isBackgroundPlayEnabled) { 
             
             miniPlayerLayout.setVisibility(View.VISIBLE);
-            
             MediaItem item = playbackService.player.getCurrentMediaItem();
             if (item != null) {
                 if (item.mediaMetadata.title != null) miniTitle.setText(item.mediaMetadata.title);
-                if (item.mediaId != null) {
-                    Glide.with(this).load(item.mediaId).centerCrop().placeholder(R.drawable.exo_icon_play).into(miniArt);
-                    
-                    // --- UPDATE HIGHLIGHT IN FRAGMENT ---
-                    // ফ্রাগমেন্টে বর্তমান ভিডিও পাথ পাঠানো হচ্ছে
-                    updateFragmentHighlight(item.mediaId);
-                }
+                if (item.mediaId != null) Glide.with(this).load(item.mediaId).centerCrop().placeholder(R.drawable.exo_icon_play).into(miniArt);
             }
             if (playbackService.player.isPlaying()) miniPlay.setImageResource(R.drawable.exo_icon_pause);
             else miniPlay.setImageResource(R.drawable.exo_icon_play);
         } else {
             miniPlayerLayout.setVisibility(View.GONE);
-            // মিনি প্লেয়ার না থাকলে হাইলাইট সরিয়ে দেওয়া যেতে পারে
-            updateFragmentHighlight(""); 
         }
-    }
-
-    // নতুন মেথড: ফ্রাগমেন্টে সিগন্যাল পাঠানো
-    private void updateFragmentHighlight(String path) {
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            if (fragment instanceof VideoFragment) {
-                ((VideoFragment) fragment).updateHighlight(path);
-            }
-        }
-    }
+    }  
      
-    // --- DATA LOADING & PERMISSIONS ---
+    // --- PERMISSIONS (FIXED) ---
     private void checkPermissions() {
         if (Build.VERSION.SDK_INT >= 33) {
-            if (ContextCompat.checkSelfPermission(this, PERMISSION_READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{PERMISSION_READ_MEDIA_VIDEO}, 101);
+            // FIX: Using String variable instead of Manifest constant to avoid symbol error
+            if (ContextCompat.checkSelfPermission(this, PERM_READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{PERM_READ_MEDIA_VIDEO}, 101);
             } else {
                 startAppLogic();
             }
         } else {
-            if (ContextCompat.checkSelfPermission(this, PERMISSION_READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{PERMISSION_READ_EXTERNAL_STORAGE}, 101);
+            if (ContextCompat.checkSelfPermission(this, PERM_READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{PERM_READ_EXTERNAL_STORAGE}, 101);
             } else {
                 startAppLogic();
             }
@@ -334,22 +321,7 @@ public class MainActivity extends AppCompatActivity {
             };
 
             Cursor cursor = getContentResolver().query(uri, projection, null, null, MediaStore.Video.Media.DATE_ADDED + " DESC");
-            
-            // --- SETTINGS VALUES LOAD ---
-            boolean showHidden = settingsManager.getShowHidden();
             boolean hideShort = settingsManager.getHideShortVideos();
-            
-            boolean enableInternal = settingsManager.getEnableInternal();
-            boolean enableSdCard = settingsManager.getEnableSdCard();
-            
-            boolean filterAll = settingsManager.getFilterAll();
-            boolean filterMp4 = settingsManager.getFilterMp4();
-            boolean filterMkv = settingsManager.getFilterMkv();
-            boolean filter3gp = settingsManager.getFilter3gp();
-            boolean filterAvi = settingsManager.getFilterAvi();
-
-            // ইন্টারনাল স্টোরেজ রুট পাথ
-            String internalRoot = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 
             if (cursor != null) {
                 while (cursor.moveToNext()) {
@@ -362,50 +334,12 @@ public class MainActivity extends AppCompatActivity {
                     long date = cursor.getLong(6);
                     
                     if (path != null && new File(path).exists()) {
-                        File file = new File(path);
-
-                        // --- 1. STORAGE FILTER ---
-                        boolean isInternalFile = path.startsWith(internalRoot);
-                        
-                        if (isInternalFile) {
-                            // ইন্টারনাল ফাইল কিন্তু টগল অফ -> বাদ দাও
-                            if (!enableInternal) continue;
-                        } else {
-                            // এসডি কার্ড ফাইল কিন্তু টগল অফ -> বাদ দাও
-                            if (!enableSdCard) continue;
-                        }
-
-                        // --- 2. HIDDEN FILE FILTER ---
-                        // ফাইল ডট দিয়ে শুরু হলে সেটি হিডেন
-                        boolean isHidden = file.getName().startsWith(".");
-                        // যদি 'Show Hidden' অফ থাকে এবং ফাইলটি হিডেন হয় -> বাদ দাও
-                        if (!showHidden && isHidden) {
-                            continue;
-                        }
-
-                        // --- 3. DURATION FILTER ---
                         long durationMillis = durationStr != null ? Long.parseLong(durationStr) : 0;
-                        // যদি 'Hide Short' অন থাকে এবং ভিডিও ৩০ সেকেন্ড কম হয় -> বাদ দাও
-                        if (hideShort && durationMillis < 30000) {
+                        
+                        if (hideShort && durationMillis < 60000) {
                             continue;
                         }
 
-                        // --- 4. EXTENSION FILTER ---
-                        if (!filterAll) { 
-                            // যদি 'All Video' অফ থাকে, তখন চেক করব স্পেসিফিক ফরম্যাট
-                            String ext = path.substring(path.lastIndexOf(".") + 1).toLowerCase();
-                            boolean keep = false;
-
-                            if (filterMp4 && ext.equals("mp4")) keep = true;
-                            if (filterMkv && ext.equals("mkv")) keep = true;
-                            if (filter3gp && ext.equals("3gp")) keep = true;
-                            if (filterAvi && ext.equals("avi")) keep = true;
-                            
-                            // যদি কোনো চেকবক্সের সাথেই ম্যাচ না করে -> বাদ দাও
-                            if (!keep) continue;
-                        }
-
-                        // সব ফিল্টার পাস করলে লিস্টে অ্যাড হবে
                         String formattedDuration = formatTime(durationMillis);
                         scannedVideos.add(new VideoItem(id, title, path, formattedDuration, folder, null, size, date));
                     }
@@ -413,8 +347,9 @@ public class MainActivity extends AppCompatActivity {
                 cursor.close();
             }
 
-            // ডাটাবেস আপডেট (শূন্য লিস্ট হলেও আপডেট হবে, যাতে আগের ডাটা মুছে যায়)
-            dbHelper.addVideos(scannedVideos);
+            if (!scannedVideos.isEmpty()) {
+                dbHelper.addVideos(scannedVideos);
+            }
 
             runOnUiThread(() -> {
                 showLoading(false);
@@ -422,6 +357,7 @@ public class MainActivity extends AppCompatActivity {
             });
         });
     }
+
     public void openFolder(String folderName) {
         Intent intent = new Intent(MainActivity.this, FolderActivity.class);
         intent.putExtra("folderName", folderName);

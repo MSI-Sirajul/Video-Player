@@ -46,14 +46,20 @@
             android:text="Location"
             android:textColor="@color/secondary_text"
             android:textSize="@dimen/_10ssp"/>
+            
+        <!-- CLICKABLE PATH -->
         <TextView
             android:id="@+id/info_path"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="/storage/emulated/0/DCIM/Video.mp4"
-            android:textColor="@color/primary_text"
+            android:text="/storage/emulated/..."
+            android:textColor="@color/colorAccent" 
             android:textSize="@dimen/_11ssp"
-            android:layout_marginBottom="@dimen/_10sdp"/>
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:paddingVertical="@dimen/_2sdp"/>
 
         <!-- Meta Grid (Size, Duration, Resolution) -->
         <LinearLayout

@@ -22,9 +22,6 @@ A powerful, highly optimized, and feature-rich Android Video Player built using 
       </td>
 </table>
 </div>
-| All Video | Folder | Settings |
-|:---:|:---:|:---:|
-| ![Home](https://raw.githubusercontent.com/MSI-Sirajul/Video-Player/refs/heads/main/asset/list.jpg) | ![Player](https://raw.githubusercontent.com/MSI-Sirajul/Video-Player/refs/heads/main/asset/folder.jpg) | ![Settings](https://raw.githubusercontent.com/MSI-Sirajul/Video-Player/refs/heads/main/asset/setting.jpg) |
 
 *(Note: Please upload screenshots to a 'screenshots' folder in your repository to make these images visible.)*
 
