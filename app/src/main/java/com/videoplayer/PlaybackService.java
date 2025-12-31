@@ -6,24 +6,35 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 import androidx.media3.common.Player;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.session.MediaSession;
 import androidx.media3.ui.PlayerNotificationManager;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 
 public class PlaybackService extends Service {
 
     private final IBinder binder = new LocalBinder();
     public ExoPlayer player;
-    public boolean isBackgroundPlayEnabled = false;
+    private MediaSession mediaSession;
     private PlayerNotificationManager notificationManager;
+    
     private static final String CHANNEL_ID = "playback_channel";
     private static final int NOTIFICATION_ID = 111;
+    
+    public boolean isBackgroundPlayEnabled = false;
 
     public class LocalBinder extends Binder {
         PlaybackService getService() {
@@ -34,9 +45,13 @@ public class PlaybackService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        
+        // ১. প্লেয়ার তৈরি
         player = new ExoPlayer.Builder(this).build();
         
-        // CRASH FIX: সার্ভিস তৈরি হওয়ার সাথে সাথেই নোটিফিকেশন চ্যানেল তৈরি করতে হবে
+        // ২. মিডিয়া সেশন তৈরি
+        mediaSession = new MediaSession.Builder(this, player).build();
+        
         createNotificationChannel();
     }
 
@@ -44,7 +59,7 @@ public class PlaybackService extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
-                    "Background Playback",
+                    "Video Player Playback",
                     NotificationManager.IMPORTANCE_LOW
             );
             channel.setDescription("Media Control");
@@ -67,10 +82,15 @@ public class PlaybackService extends Service {
     public void startBackgroundPlay(String videoTitle) {
         if (notificationManager == null) {
             notificationManager = new PlayerNotificationManager.Builder(this, NOTIFICATION_ID, CHANNEL_ID)
+                    
+                    // --- META DATA ADAPTER ---
                     .setMediaDescriptionAdapter(new PlayerNotificationManager.MediaDescriptionAdapter() {
                         @Override
                         public CharSequence getCurrentContentTitle(Player player) {
-                            return videoTitle;
+                            if (player.getCurrentMediaItem() != null && player.getCurrentMediaItem().mediaMetadata.title != null) {
+                                return player.getCurrentMediaItem().mediaMetadata.title;
+                            }
+                            return "Video Player";
                         }
 
                         @Nullable
@@ -84,37 +104,76 @@ public class PlaybackService extends Service {
                         @Nullable
                         @Override
                         public CharSequence getCurrentContentText(Player player) {
-                            return "Playing in background";
+                            return null; 
                         }
 
                         @Nullable
                         @Override
                         public Bitmap getCurrentLargeIcon(Player player, PlayerNotificationManager.BitmapCallback callback) {
+                            // থাম্বনেইল লোডিং (Glide)
+                            if (player.getCurrentMediaItem() != null && player.getCurrentMediaItem().mediaId != null) {
+                                Glide.with(PlaybackService.this)
+                                        .asBitmap()
+                                        .load(player.getCurrentMediaItem().mediaId)
+                                        .centerCrop()
+                                        .into(new CustomTarget<Bitmap>() {
+                                            @Override
+                                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                                callback.onBitmap(resource);
+                                            }
+                                            @Override
+                                            public void onLoadCleared(@Nullable Drawable placeholder) {}
+                                            @Override
+                                            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                                                callback.onBitmap(null);
+                                            }
+                                        });
+                            }
                             return null;
                         }
                     })
+                    
+                    // --- NOTIFICATION LISTENER ---
                     .setNotificationListener(new PlayerNotificationManager.NotificationListener() {
                         @Override
                         public void onNotificationPosted(int notificationId, Notification notification, boolean ongoing) {
                             if (ongoing) {
-                                try {
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                    startForeground(notificationId, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
+                                } else {
                                     startForeground(notificationId, notification);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
                                 }
+                            } else {
+                                stopForeground(false);
                             }
                         }
 
                         @Override
                         public void onNotificationCancelled(int notificationId, boolean dismissedByUser) {
                             stopForeground(true);
+                            isBackgroundPlayEnabled = false;
                             stopSelf();
                         }
                     })
-                    .setSmallIconResourceId(R.drawable.exo_icon_play) // নিশ্চিত করুন এই আইকনটি আছে
+                    
+                    // --- ICONS (FIX: Removed deprecated methods) ---
+                    .setSmallIconResourceId(R.drawable.exo_icon_play)
                     .build();
 
+            // ৩. মিডিয়া সেশন সেট করা (সিকবার ফিক্স)
+            notificationManager.setMediaSessionToken(mediaSession.getSessionCompatToken());
+            
+            // ৪. প্লেয়ার সেট করা
             notificationManager.setPlayer(player);
+            
+            // ৫. অ্যাকশন বাটন কনফিগারেশন
+            notificationManager.setUseNextAction(true);
+            notificationManager.setUsePreviousAction(true);
+            notificationManager.setUsePlayPauseActions(true);
+            notificationManager.setUseStopAction(false);
+            
+            // ক্রোনোমিটার বন্ধ (সিকবার দেখানোর জন্য)
+            notificationManager.setUseChronometer(false);
         }
     }
 
@@ -129,11 +188,15 @@ public class PlaybackService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_STICKY;
+        return START_STICKY; 
     }
 
     @Override
     public void onDestroy() {
+        if (mediaSession != null) {
+            mediaSession.release();
+            mediaSession = null;
+        }
         if (player != null) {
             player.release();
             player = null;

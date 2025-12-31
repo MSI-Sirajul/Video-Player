@@ -88,6 +88,15 @@
                 android:layout_height="@dimen/_24sdp"
                 android:src="@drawable/ic_telegram"/>
         </LinearLayout>
+        
+        <!-- Button with Correct ID -->
+        <Button
+            android:id="@+id/btn_close_info"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:text="Close"
+            android:backgroundTint="#33AAAAAA"
+            android:layout_marginTop="@dimen/_15sdp"/>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

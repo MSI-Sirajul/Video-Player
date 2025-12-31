@@ -32,8 +32,8 @@ android {
             minifyEnabled false
         }
         release {
-            minifyEnabled true      // কোড ছোট করবে
-            shrinkResources true    // রিসোর্স ছোট করবে
+            minifyEnabled true      // 🔥 কোড ছোট করবে
+            shrinkResources true    // 🔥 রিসোর্স ছোট করবে
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             splits {
                 abi {

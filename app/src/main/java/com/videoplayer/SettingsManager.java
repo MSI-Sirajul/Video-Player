@@ -66,9 +66,12 @@ public class SettingsManager {
         return preferences.getInt(KEY_SORT_TYPE, SORT_DATE_NEW); // Default: Newest
     }
 
+    // --- VIEW MODE (UPDATED to commit) ---
     public void setViewMode(int mode) {
-        editor.putInt(KEY_VIEW_MODE, mode).apply();
+        // commit() ব্যবহার করা হয়েছে যাতে রিস্টার্টের আগে ডাটা সেভ হয়
+        editor.putInt(KEY_VIEW_MODE, mode).commit(); 
     }
+
     public int getViewMode() {
         return preferences.getInt(KEY_VIEW_MODE, VIEW_LIST); // Default: List
     }
@@ -77,7 +80,8 @@ public class SettingsManager {
     // 2. HOME PAGE
     // ===========================
     public void setDefaultHome(int tabIndex) { 
-        editor.putInt(KEY_DEFAULT_HOME, tabIndex).apply();
+        // commit() ব্যবহার করা হয়েছে
+        editor.putInt(KEY_DEFAULT_HOME, tabIndex).commit();
     }
     public int getDefaultHome() {
         return preferences.getInt(KEY_DEFAULT_HOME, 0); // 0=All Videos, 1=Folder

@@ -1,6 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Video Player</string>
+
+    <!-- SETTINGS TITLES & DESCRIPTIONS -->
+
+    <!-- 1. SORT BY -->
+    <string name="title_sort_name">Name (A-Z)</string>
+    <string name="desc_on_sort_name">Sorting videos alphabetically</string>
+    <string name="desc_off_sort_name">Sort by name</string>
+
+    <string name="title_sort_date">Date (Newest)</string>
+    <string name="desc_on_sort_date">Showing newest videos first</string>
+    <string name="desc_off_sort_date">Sort by date added</string>
+
+    <string name="title_sort_size">Size (Largest)</string>
+    <string name="desc_on_sort_size">Showing largest files first</string>
+    <string name="desc_off_sort_size">Sort by file size</string>
+
+    <string name="title_sort_duration">Duration (Length)</string>
+    <string name="desc_on_sort_duration">Showing longest videos first</string>
+    <string name="desc_off_sort_duration">Sort by video duration</string>
+
+    <!-- 2. VIEW MODE -->
+    <string name="title_view_list">List View</string>
+    <string name="desc_on_view_list">Videos displayed in a list</string>
+    <string name="desc_off_view_list">Switch to list layout</string>
+
+    <string name="title_view_grid">Grid View</string>
+    <string name="desc_on_view_grid">Videos displayed in a grid</string>
+    <string name="desc_off_view_grid">Switch to grid layout</string>
+
+    <!-- 3. DEFAULT HOME -->
+    <string name="title_home_all">All Videos</string>
+    <string name="desc_on_home_all">App starts with All Videos tab</string>
+    <string name="desc_off_home_all">Set All Videos as start page</string>
+
+    <string name="title_home_folder">Folders</string>
+    <string name="desc_on_home_folder">App starts with Folders tab</string>
+    <string name="desc_off_home_folder">Set Folders as start page</string>
+
+    <!-- 4. HIDE / SHOW FILES -->
+    <string name="title_show_hidden">Show Hidden Videos</string>
+    <string name="desc_on_show_hidden">Hidden files (.nomedia) are visible</string>
+    <string name="desc_off_show_hidden">Show hidden files and folders</string>
+
+    <string name="title_hide_short">Hide Short Videos</string>
+    <string name="desc_on_hide_short">Videos shorter than 60s are hidden</string>
+    <string name="desc_off_hide_short">Hide videos shorter than 1 minute</string>
+
+    <!-- 5. FILTER VIDEOS -->
+    <string name="title_filter_all">All Video Formats</string>
+    <string name="desc_on_filter_all">Showing all supported formats</string>
+    <string name="desc_off_filter_all">Show all video types</string>
+
+    <string name="title_filter_mp4">MP4</string>
+    <string name="desc_on_filter_mp4">Only showing MP4 videos</string>
+    <string name="desc_off_filter_mp4">Show MP4 files</string>
+
+    <string name="title_filter_mkv">MKV</string>
+    <string name="desc_on_filter_mkv">Only showing MKV videos</string>
+    <string name="desc_off_filter_mkv">Show MKV files</string>
+
+    <string name="title_filter_3gp">3GP</string>
+    <string name="desc_on_filter_3gp">Only showing 3GP videos</string>
+    <string name="desc_off_filter_3gp">Show 3GP files</string>
+
+    <string name="title_filter_avi">AVI</string>
+    <string name="desc_on_filter_avi">Only showing AVI videos</string>
+    <string name="desc_off_filter_avi">Show AVI files</string>
+
+    <!-- 6. STORAGE -->
+    <string name="title_storage_internal">Internal Storage</string>
+    <string name="desc_on_storage_internal">Scanning internal memory</string>
+    <string name="desc_off_storage_internal">Internal storage hidden</string>
+
+    <string name="title_storage_sd">SD Card</string>
+    <string name="desc_on_storage_sd">Scanning external SD card</string>
+    <string name="desc_off_storage_sd">SD card hidden</string>
+
+    <!-- 7. THEME -->
+    <string name="title_theme_auto">Auto</string>
+    <string name="desc_on_theme_auto">Follows system theme</string>
+    <string name="desc_off_theme_auto">Use system default theme</string>
+
+    <string name="title_theme_dark">Dark</string>
+    <string name="desc_on_theme_dark">Dark mode enabled</string>
+    <string name="desc_off_theme_dark">Apply dark mode</string>
+
+    <string name="title_theme_light">Light</string>
+    <string name="desc_on_theme_light">Light mode enabled</string>
+    <string name="desc_off_theme_light">Apply light mode</string>
+    
     <string name="no_videos_found">No videos found</string>
     <string name="no_folders_found">No folders found</string>
     <string name="permission_required">Storage permission required</string>

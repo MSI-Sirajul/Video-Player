@@ -111,15 +111,18 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PlaybackService.class);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
     }
-
     @Override
     protected void onResume() {
         super.onResume();
-        if(isBound && playbackService != null) updateMiniPlayer();
+        if(isBound && playbackService != null) {
+            updateMiniPlayer();
+        }
         
-        // SettingsActivity থেকে ফিরলে যাতে লিস্ট আপডেট হয় (ফিল্টার/সর্টিং অ্যাপ্লাই)
-        // আমরা এখানে স্ক্যান চালাচ্ছি কারণ ফিল্টার চেঞ্জ হতে পারে
-        scanStorageInBackground();
+        // FIX: এখানে scanStorageInBackground() কল করবেন না। এটি স্লো করে দেয়।
+        // শুধু refreshFragments() কল করুন। এটি ফ্রাগমেন্টের loadVideos() কল করবে।
+        // যেহেতু loadVideos() এখন স্মার্ট (Adapter Reuse), তাই ফ্লিকার হবে না।
+        
+        refreshFragments();
     }
 
     @Override
@@ -132,7 +135,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    
     private void initViews() {
+        // 1. ViewPager & Tabs Setup
         viewPager = findViewById(R.id.view_pager);
         dot1 = findViewById(R.id.dot_1);
         dot2 = findViewById(R.id.dot_2);
@@ -149,10 +154,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // 2. Standard Views
         tvTitle = findViewById(R.id.tv_app_title);
-        searchBar = findViewById(R.id.et_search);
         lottieLoading = findViewById(R.id.lottie_loading);
         
+        // 3. Mini Player Views
         miniPlayerLayout = findViewById(R.id.miniPlayerLayout);
         miniArt = findViewById(R.id.mini_art);
         miniPlay = findViewById(R.id.mini_play);
@@ -163,21 +169,25 @@ public class MainActivity extends AppCompatActivity {
 
         setupMiniPlayerControls();
 
+        // 4. Header Buttons Logic
+        
+        // Settings Button -> Opens SettingsActivity
         ImageView btnSettings = findViewById(R.id.btn_settings);
         if(btnSettings != null) {
-            // FIX: এখানে পুরাতন পপআপ মেথড সরিয়ে সরাসরি SettingsActivity ওপেন করা হচ্ছে
             btnSettings.setOnClickListener(v -> {
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             });
         }
 
-        searchBar.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO: Implement Search broadcast to fragments
-            }
-            @Override public void afterTextChanged(Editable s) {}
-        });
+        // Search Button -> Opens SearchActivity (NEW)
+        ImageView btnSearch = findViewById(R.id.btn_search);
+        if(btnSearch != null) {
+            btnSearch.setOnClickListener(v -> {
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+            });
+        }
+        
+        // NOTE: Old EditText search logic removed completely.
     }
     
     private void updateDots(int position) {
@@ -242,17 +252,35 @@ public class MainActivity extends AppCompatActivity {
                 && playbackService.isBackgroundPlayEnabled) { 
             
             miniPlayerLayout.setVisibility(View.VISIBLE);
+            
             MediaItem item = playbackService.player.getCurrentMediaItem();
             if (item != null) {
                 if (item.mediaMetadata.title != null) miniTitle.setText(item.mediaMetadata.title);
-                if (item.mediaId != null) Glide.with(this).load(item.mediaId).centerCrop().placeholder(R.drawable.exo_icon_play).into(miniArt);
+                if (item.mediaId != null) {
+                    Glide.with(this).load(item.mediaId).centerCrop().placeholder(R.drawable.exo_icon_play).into(miniArt);
+                    
+                    // --- UPDATE HIGHLIGHT IN FRAGMENT ---
+                    // ফ্রাগমেন্টে বর্তমান ভিডিও পাথ পাঠানো হচ্ছে
+                    updateFragmentHighlight(item.mediaId);
+                }
             }
             if (playbackService.player.isPlaying()) miniPlay.setImageResource(R.drawable.exo_icon_pause);
             else miniPlay.setImageResource(R.drawable.exo_icon_play);
         } else {
             miniPlayerLayout.setVisibility(View.GONE);
+            // মিনি প্লেয়ার না থাকলে হাইলাইট সরিয়ে দেওয়া যেতে পারে
+            updateFragmentHighlight(""); 
         }
-    }  
+    }
+
+    // নতুন মেথড: ফ্রাগমেন্টে সিগন্যাল পাঠানো
+    private void updateFragmentHighlight(String path) {
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment instanceof VideoFragment) {
+                ((VideoFragment) fragment).updateHighlight(path);
+            }
+        }
+    }
      
     // --- DATA LOADING & PERMISSIONS ---
     private void checkPermissions() {

@@ -28,7 +28,7 @@
     native <methods>;
 }
 
-# Parcelable রাখা
+# 🔥 Parcelable রাখা
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
 }

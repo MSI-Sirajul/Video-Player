@@ -1,69 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_60sdp"
-    android:orientation="horizontal"
-    android:paddingHorizontal="@dimen/_10sdp"
-    android:paddingVertical="@dimen/_4sdp"
-    android:background="?attr/selectableItemBackground"
-    android:gravity="center_vertical">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/_10sdp"
+    android:layout_marginVertical="@dimen/_4sdp"
+    app:cardBackgroundColor="@color/secondary_bg"
+    app:cardCornerRadius="@dimen/_10sdp"
+    app:cardElevation="0dp"
+    android:foreground="?attr/selectableItemBackground">
 
-    <!-- Thumbnail (Smaller & Rounded) -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="@dimen/_85sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        app:cardCornerRadius="@dimen/_6sdp"
-        app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/secondary_bg">
-        
-        <ImageView
-            android:id="@+id/img_thumbnail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
-            
-        <!-- Duration Overlay -->
-        <TextView
-            android:id="@+id/tv_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:background="#99000000"
-            android:textColor="#FFFFFF"
-            android:textSize="@dimen/_8ssp"
-            android:paddingHorizontal="@dimen/_3sdp"
-            android:paddingVertical="@dimen/_1sdp"
-            android:text="00:00"/>
-    </androidx.cardview.widget.CardView>
-
-    <!-- Text Info -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:padding="@dimen/_8sdp"
+        android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="match_parent"
+        <!-- 1. Thumbnail (Rounded) -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_55sdp"
+            app:cardCornerRadius="@dimen/_8sdp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#000000">
+
+            <ImageView
+                android:id="@+id/img_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
+
+            <!-- Duration Badge -->
+            <TextView
+                android:id="@+id/tv_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:background="@drawable/bg_card_rounded"
+                android:backgroundTint="#CC000000"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/_8ssp"
+                android:paddingHorizontal="@dimen/_4sdp"
+                android:paddingVertical="@dimen/_1sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:text="00:00"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- 2. Video Details -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Video Title"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/_11ssp"
-            android:textStyle="bold"
-            android:maxLines="2"
-            android:ellipsize="end"/>
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/_10sdp">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Video Title Here"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+
+            <!-- Meta Info Row (Size • Date) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_4sdp">
+
+                <TextView
+                    android:id="@+id/tv_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25 MB"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/_9ssp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" • "
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/_9ssp"/>
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12 Oct"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/_9ssp"/>
+            </LinearLayout>
+            
+             <!-- Folder Name (Optional/Extra) -->
+             <TextView
+                android:id="@+id/tv_folder_name_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Camera"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_8ssp"
+                android:layout_marginTop="@dimen/_1sdp"/>
+        </LinearLayout>
+
+        <!-- 3. Menu -->
+        <ImageView
+            android:id="@+id/img_menu_more"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_menu_3dot"
+            app:tint="@color/secondary_text"/>
+
     </LinearLayout>
-
-    <!-- Option Menu -->
-    <ImageView
-        android:id="@+id/img_menu_more"
-        android:layout_width="@dimen/_22sdp"
-        android:layout_height="@dimen/_22sdp"
-        android:padding="@dimen/_4sdp"
-        android:src="@drawable/ic_menu_3dot"
-        app:tint="@color/secondary_text"/>
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Brand Colors -->
-    <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryDark">#1976D2</color>
-    <color name="colorAccent">#2196F3</color>
+    <!-- Brand Colors (Both modes) -->
+    <color name="colorPrimary">#3565C0</color>      <!-- Primary Blue -->
+    <color name="colorPrimaryDark">#F1F1F1</color>  <!-- Darker Blue for status bar -->
+    <color name="colorAccent">#58aaf3</color>       <!-- Orange accent for better contrast -->
 
-    <!-- Dynamic Backgrounds (Light) -->
-    <color name="primary_bg">#FFFFFF</color>       <!-- মেইন স্ক্রিন সাদা -->
-    <color name="secondary_bg">#F5F5F5</color>     <!-- লিস্ট আইটেম হালকা ধূসর -->
-    <color name="popup_bg">#FFFFFF</color>         <!-- পপআপ মেনু সাদা -->
+    <!-- Dynamic Backgrounds -->
+    <color name="primary_bg">#F8F9FA</color>        <!-- Very light gray for light mode -->
+    <color name="secondary_bg">#F0F0F0</color>      <!-- Pure white for cards/surfaces -->
+    <color name="popup_bg">#FFFFFF</color>          <!-- White for popups -->
     
-    <!-- Dynamic Text & Icons (Light) -->
-    <color name="primary_text">#212121</color>     <!-- কালো লেখা -->
-    <color name="secondary_text">#757575</color>   <!-- ধূসর লেখা -->
+    <!-- Dynamic Text & Icons -->
+    <color name="primary_text">#212121</color>      <!-- Dark gray for primary text -->
+    <color name="secondary_text">#757575</color>    <!-- Medium gray for secondary text -->
     
     <!-- Others -->
-    <color name="divider">#1F000000</color>        <!-- হালকা বর্ডার -->
+    <color name="divider">#E0E0E0</color>           <!-- Light gray divider -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="ripple_color">#42000000</color>
-        <!-- Custom Names -->
-    <color name="background_dark">#000000</color>
-    <color name="text_color_dark">#FFFFFF</color>
-    <color name="text_primary_dark">#FFFFFF</color>
-    <color name="text_secondary_dark">#B3B3B3</color>
+    <color name="ripple_color">#1F000000</color>
+    <color name="background_dark">#f5f6fb</color>
+     
 </resources>

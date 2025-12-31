@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <!-- সেটিংস এবং ডাটাবেস ব্যাকআপ হবে, কিন্তু ক্যাশ ফোল্ডার বাদ যাবে -->
+        <exclude domain="cache" path="."/>
+        <exclude domain="root" path="cache"/>
+        
+        <!-- আমাদের তৈরি করা ভিডিও থাম্বনেইল ফোল্ডার বাদ দেওয়া হচ্ছে -->
+        <exclude domain="cache" path="video_thumbnails"/>
+    </cloud-backup>
+    
+    <device-transfer>
+        <exclude domain="cache" path="."/>
+        <exclude domain="root" path="cache"/>
+        <exclude domain="cache" path="video_thumbnails"/>
+    </device-transfer>
+</data-extraction-rules>

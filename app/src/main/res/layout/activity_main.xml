@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/primary_bg">
 
-    <!-- 1. TOP BAR -->
+    <!-- 1. TOP BAR (Updated with Search Icon) -->
     <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:textStyle="bold"
             android:layout_centerVertical="true"/>
             
-        <!-- Settings Icon -->
+        <!-- Settings Icon (Right) -->
         <ImageView
             android:id="@+id/btn_settings"
             android:layout_width="@dimen/_20sdp"
@@ -32,42 +32,38 @@
             android:layout_centerVertical="true"
             app:tint="@color/primary_text"
             android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <!-- Search Icon (Added Left of Settings) -->
+        <ImageView
+            android:id="@+id/btn_search"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/ic_search"
+            android:layout_toStartOf="@id/btn_settings"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_15sdp"
+            app:tint="@color/primary_text"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
     </RelativeLayout>
 
-    <!-- 2. SEARCH BAR -->
-    <EditText
-        android:id="@+id/et_search"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_32sdp"
-        android:layout_marginHorizontal="@dimen/_12sdp"
-        android:layout_marginBottom="@dimen/_5sdp"
-        android:background="@drawable/bg_search"
-        android:hint="Search videos..."
-        android:textColor="@color/primary_text"
-        android:textColorHint="@color/secondary_text"
-        android:textSize="@dimen/_11ssp"
-        android:paddingStart="@dimen/_12sdp"
-        android:paddingEnd="@dimen/_12sdp"
-        android:maxLines="1"
-        android:inputType="text"
-        app:layout_constraintTop_toBottomOf="@id/top_bar"/>
+    <!-- NOTE: et_search (EditText) has been removed -->
 
-    <!-- 3. VIEW PAGER (Main Content Slide) -->
+    <!-- 2. VIEW PAGER (Main Content Slide) -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/et_search"
+        app:layout_constraintTop_toBottomOf="@id/top_bar"
         app:layout_constraintBottom_toTopOf="@id/tab_indicator_layout"/>
 
-    <!-- 4. TAB INDICATOR (Dots) -->
+    <!-- 3. TAB INDICATOR (Dots) -->
     <LinearLayout
         android:id="@+id/tab_indicator_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_20sdp"
         android:orientation="horizontal"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@id/miniPlayerLayout"> <!-- মিনি প্লেয়ারের উপরে থাকবে -->
+        app:layout_constraintBottom_toTopOf="@id/miniPlayerLayout"> <!-- Above Mini Player -->
 
         <ImageView
             android:id="@+id/dot_1"
@@ -83,36 +79,60 @@
             android:src="@drawable/tab_indicator_default"/>
     </LinearLayout>
 
-    <!-- 5. MINI PLAYER (Fixed at Bottom) -->
+    <!-- 4. MINI PLAYER (Fixed at Bottom) -->
     <RelativeLayout 
         android:id="@+id/miniPlayerLayout" 
         android:layout_width="match_parent" 
-        android:layout_height="@dimen/_50sdp" 
+        android:layout_height="@dimen/_55sdp" 
         android:background="@color/secondary_bg" 
-        android:padding="@dimen/_3sdp" 
+        android:paddingHorizontal="@dimen/_8sdp"
+        android:paddingVertical="@dimen/_4sdp"
         android:elevation="@dimen/_8sdp" 
         android:visibility="gone" 
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent">
 
+        <!-- Close Button (Left Side) -->
         <ImageView 
-            android:id="@+id/mini_art" 
-            android:layout_width="@dimen/_42sdp" 
-            android:layout_height="@dimen/_42sdp" 
-            android:src="@drawable/ic_bg_play" 
-            android:layout_centerVertical="true" 
-            android:scaleType="centerCrop"
-            android:background="@drawable/bg_card_rounded"
-            android:clipToOutline="true"/> 
+            android:id="@+id/mini_close" 
+            android:layout_width="@dimen/_22sdp" 
+            android:layout_height="@dimen/_22sdp" 
+            android:src="@drawable/ic_close" 
+            android:rotation="0" 
+            android:padding="@dimen/_4sdp" 
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:tint="@color/secondary_text"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
 
+        <!-- Thumbnail (Right of Close Button) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_mini_thumb"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_toEndOf="@id/mini_close"
+            android:layout_centerVertical="true"
+            app:cardCornerRadius="@dimen/_20sdp" 
+            app:cardElevation="0dp">
+            
+            <ImageView 
+                android:id="@+id/mini_art" 
+                android:layout_width="match_parent" 
+                android:layout_height="match_parent" 
+                android:src="@drawable/ic_bg_play" 
+                android:scaleType="centerCrop"/> 
+        </androidx.cardview.widget.CardView>
+
+        <!-- Title & Artist (Middle) -->
         <LinearLayout 
+            android:id="@+id/mini_text_layout" 
             android:layout_width="match_parent" 
             android:layout_height="wrap_content" 
-            android:layout_toEndOf="@id/mini_art" 
+            android:layout_toEndOf="@id/card_mini_thumb" 
             android:layout_toStartOf="@+id/controls_mini" 
             android:layout_centerVertical="true" 
-            android:layout_marginStart="@dimen/_8sdp" 
+            android:layout_marginStart="@dimen/_10sdp" 
             android:orientation="vertical">
 
             <TextView 
@@ -122,7 +142,7 @@
                 android:text="Video Title" 
                 android:textColor="@color/primary_text" 
                 android:textStyle="bold" 
-                android:textSize="@dimen/_10ssp" 
+                android:textSize="@dimen/_11ssp" 
                 android:singleLine="true"
                 android:ellipsize="marquee"/>
 
@@ -132,10 +152,11 @@
                 android:layout_height="wrap_content" 
                 android:text="Now Playing" 
                 android:textColor="@color/secondary_text" 
-                android:textSize="@dimen/_8ssp" 
+                android:textSize="@dimen/_9ssp" 
                 android:singleLine="true"/>
         </LinearLayout>
 
+        <!-- Controls (Right Side) -->
         <LinearLayout 
             android:id="@+id/controls_mini" 
             android:layout_width="wrap_content" 
@@ -147,42 +168,35 @@
             
             <ImageView 
                 android:id="@+id/mini_prev" 
-                android:layout_width="@dimen/_22sdp" 
-                android:layout_height="@dimen/_22sdp" 
+                android:layout_width="@dimen/_24sdp" 
+                android:layout_height="@dimen/_24sdp" 
                 android:src="@drawable/exo_icon_previous" 
                 android:padding="@dimen/_4sdp" 
-                app:tint="@color/primary_text"/>
+                app:tint="@color/primary_text"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
 
             <ImageView 
                 android:id="@+id/mini_play" 
-                android:layout_width="@dimen/_28sdp" 
-                android:layout_height="@dimen/_28sdp" 
+                android:layout_width="@dimen/_32sdp" 
+                android:layout_height="@dimen/_32sdp" 
                 android:layout_marginHorizontal="@dimen/_4sdp"
                 android:src="@drawable/exo_icon_pause" 
                 android:padding="@dimen/_2sdp" 
-                app:tint="@color/colorAccent"/>
+                app:tint="@color/colorAccent"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
 
             <ImageView 
                 android:id="@+id/mini_next" 
-                android:layout_width="@dimen/_22sdp" 
-                android:layout_height="@dimen/_22sdp" 
+                android:layout_width="@dimen/_24sdp" 
+                android:layout_height="@dimen/_24sdp" 
                 android:src="@drawable/exo_icon_next" 
                 android:padding="@dimen/_4sdp" 
-                app:tint="@color/primary_text"/>
-                
-            <ImageView 
-                android:id="@+id/mini_close" 
-                android:layout_width="@dimen/_20sdp" 
-                android:layout_height="@dimen/_20sdp" 
-                android:src="@drawable/ic_unlock" 
-                android:rotation="45"
-                android:layout_marginStart="@dimen/_4sdp"
-                android:padding="@dimen/_4sdp" 
-                app:tint="@color/secondary_text"/>
+                app:tint="@color/primary_text"
+                android:background="?attr/selectableItemBackgroundBorderless"/>
         </LinearLayout>
     </RelativeLayout>
 
-    <!-- Lottie (Overlay if needed) -->
+    <!-- Lottie Loading (Overlay) -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie_loading"
         android:layout_width="@dimen/_100sdp"

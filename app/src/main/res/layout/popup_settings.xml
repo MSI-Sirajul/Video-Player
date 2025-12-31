@@ -162,7 +162,7 @@
         <ImageView
             android:layout_width="@dimen/_18sdp"
             android:layout_height="@dimen/_18sdp"
-            android:src="@drawable/ic_share"
+            android:src="@drawable/ic_share_app"
             app:tint="@color/primary_text"/>
 
         <TextView

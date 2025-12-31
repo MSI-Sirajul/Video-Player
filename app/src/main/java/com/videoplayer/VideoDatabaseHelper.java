@@ -77,7 +77,6 @@ public class VideoDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // সর্টিং সহ ভিডিও লোড করা
     public ArrayList<VideoItem> getAllVideos(int sortType) {
         ArrayList<VideoItem> videoList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -97,10 +96,6 @@ public class VideoDatabaseHelper extends SQLiteOpenHelper {
                 orderBy = COL_DATE + " ASC";
                 break;
             case SettingsManager.SORT_SIZE_LARGE:
-                // Size is text, casting needed for correct sort if strictly numeric needed, 
-                // but usually size in bytes fits in INTEGER/LONG logic.
-                // For simplicity assuming bytes stored as numbers in text or handled.
-                // Better approach: Cast to INTEGER
                 orderBy = "CAST(" + COL_SIZE + " AS INTEGER) DESC";
                 break;
             case SettingsManager.SORT_SIZE_SMALL:
@@ -130,6 +125,43 @@ public class VideoDatabaseHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         cursor.close();
+        db.close();
+        return videoList;
+    }
+    // --- DELETE METHOD ---
+    public void deleteVideo(String path) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, COL_PATH + "=?", new String[]{path});
+        db.close();
+    }
+
+    // 2. নতুন মেথড: সার্চ করার জন্য (এটি getAllVideos এর নিচে বসান)
+    public ArrayList<VideoItem> searchVideos(String query) {
+        ArrayList<VideoItem> videoList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        
+        // টাইটেল এর মধ্যে কি-ওয়ার্ড খুঁজবে
+        String selection = COL_TITLE + " LIKE ?";
+        String[] selectionArgs = new String[]{"%" + query + "%"};
+        
+        // সার্চ রেজাল্ট নতুন ভিডিও আগে দেখাবে
+        Cursor cursor = db.query(TABLE_NAME, null, selection, selectionArgs, null, null, COL_DATE + " DESC");
+
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                String id = cursor.getString(cursor.getColumnIndexOrThrow(COL_VIDEO_ID));
+                String title = cursor.getString(cursor.getColumnIndexOrThrow(COL_TITLE));
+                String path = cursor.getString(cursor.getColumnIndexOrThrow(COL_PATH));
+                String duration = cursor.getString(cursor.getColumnIndexOrThrow(COL_DURATION));
+                String folder = cursor.getString(cursor.getColumnIndexOrThrow(COL_FOLDER));
+                String thumb = cursor.getString(cursor.getColumnIndexOrThrow(COL_THUMB));
+                String size = cursor.getString(cursor.getColumnIndexOrThrow(COL_SIZE));
+                long date = cursor.getLong(cursor.getColumnIndexOrThrow(COL_DATE));
+
+                videoList.add(new VideoItem(id, title, path, duration, folder, thumb, size, date));
+            } while (cursor.moveToNext());
+            cursor.close();
+        }
         db.close();
         return videoList;
     }
@@ -166,5 +198,27 @@ public class VideoDatabaseHelper extends SQLiteOpenHelper {
         int count = cursor.getInt(0);
         cursor.close();
         return count > 0;
+    }
+    // --- NEW: Folder Statistics (Count & Size) ---
+    public long[] getFolderStats(String folderName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        long[] stats = new long[2]; // Index 0 = Count, Index 1 = Total Size
+        
+        try {
+            // ভিডিও কাউন্ট এবং সাইজ এর যোগফল বের করা
+            Cursor cursor = db.rawQuery(
+                "SELECT COUNT(*), SUM(CAST(" + COL_SIZE + " AS INTEGER)) FROM " + TABLE_NAME + " WHERE " + COL_FOLDER + "=?", 
+                new String[]{folderName}
+            );
+
+            if (cursor.moveToFirst()) {
+                stats[0] = cursor.getLong(0); // Total Video Count
+                stats[1] = cursor.getLong(1); // Total File Size (Bytes)
+            }
+            cursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return stats;
     }
 }

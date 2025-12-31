@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/_260sdp"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/secondary_bg"
+    app:cardCornerRadius="@dimen/_15sdp"
+    app:cardElevation="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/_20sdp">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Properties"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/_16ssp"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/_15sdp"/>
+
+        <!-- Filename -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="File Name"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/_10ssp"/>
+        <TextView
+            android:id="@+id/info_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Video.mp4"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/_11ssp"
+            android:layout_marginBottom="@dimen/_10sdp"/>
+
+        <!-- Location -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/_10ssp"/>
+        <TextView
+            android:id="@+id/info_path"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="/storage/emulated/0/DCIM/Video.mp4"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/_11ssp"
+            android:layout_marginBottom="@dimen/_10sdp"/>
+
+        <!-- Meta Grid (Size, Duration, Resolution) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <!-- Size -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Size"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/_10ssp"/>
+                <TextView
+                    android:id="@+id/info_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25 MB"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/_11ssp"/>
+            </LinearLayout>
+
+            <!-- Duration -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Duration"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/_10ssp"/>
+                <TextView
+                    android:id="@+id/info_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="05:30"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/_11ssp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:baselineAligned="false"
+            android:layout_marginTop="@dimen/_10sdp">
+
+            <!-- Resolution -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Resolution"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/_10ssp"/>
+                <TextView
+                    android:id="@+id/info_resolution"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1920x1080"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/_11ssp"/>
+            </LinearLayout>
+
+            <!-- Format -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Format"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="@dimen/_10ssp"/>
+                <TextView
+                    android:id="@+id/info_format"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MP4"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/_11ssp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Close Button -->
+        <TextView
+            android:id="@+id/btn_close_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/_12ssp"
+            android:textStyle="bold"
+            android:layout_gravity="end"
+            android:padding="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_15sdp"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -42,7 +42,7 @@
         android:layout_width="@dimen/_220sdp" 
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="#00000000"
+        android:background="#30000000"
         android:orientation="vertical"
         android:clickable="true"
         android:focusable="true">
@@ -57,7 +57,7 @@
             android:textStyle="bold"
             android:gravity="center"
             android:paddingVertical="@dimen/_8sdp"
-            android:background="#60000000"/>
+            android:background="#30000000"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_queue"

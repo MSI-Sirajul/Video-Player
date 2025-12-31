@@ -72,8 +72,7 @@ public class PlayerActivity extends AppCompatActivity {
 	private LinearLayout layoutTop, layoutGestureInfo;
 	private RelativeLayout layoutBottom;
 	private TextView tvTitle, tvCurrentTime, tvTotalTime, tvGesturePerc;
-	private ImageView btnPlayPause, btnNext, btnPrev, btnLock, btnRotate, btnScale, btnBack, btnPlaylist, btnBgPlay,
-			imgGestureIcon;
+	private ImageView btnPlayPause, btnNext, btnPrev, btnLock, btnRotate, btnScale, btnBack, btnPlaylist, btnBgPlay, imgGestureIcon;
 	private SeekBar seekBar;
 	private RecyclerView recyclerQueue;
 	private QueueAdapter queueAdapter;
@@ -312,92 +311,134 @@ public class PlayerActivity extends AppCompatActivity {
 	}
 
 	private void initializePlayer() {
-		if (playbackService == null)
-			return;
+        if (playbackService == null) return;
 
-		playerView.setPlayer(playbackService.player);
-		resetResizeMode();
+        playerView.setPlayer(playbackService.player);
 
-		if (position != -1) {
-			boolean isSameVideo = false;
-			if (playbackService.player.getMediaItemCount() > 0) {
-				MediaItem currentItem = playbackService.player.getCurrentMediaItem();
-				if (currentItem != null && currentItem.mediaId.equals(videoList.get(position).getPath())) {
-					isSameVideo = true;
-				}
-			}
+        // --- VIDEO LOAD / RESUME LOGIC ---
+        if (position != -1) {
+            // আমরা চেক করব যে প্লেয়ারে বর্তমানে যে ভিডিও চলছে, সেটা কি আমাদের কাঙ্ক্ষিত ভিডিও?
+            // এবং প্লেলিস্টের সাইজ ঠিক আছে কি না।
+            
+            boolean isPlaylistSynced = false;
+            
+            // ১. প্লেলিস্ট সাইজ চেক
+            if (playbackService.player.getMediaItemCount() == videoList.size()) {
+                // ২. বর্তমান ভিডিও চেক
+                MediaItem currentItem = playbackService.player.getCurrentMediaItem();
+                if (currentItem != null && currentItem.mediaId.equals(videoList.get(position).getPath())) {
+                    isPlaylistSynced = true;
+                }
+            }
 
-			if (!isSameVideo) {
-				playbackService.player.stop();
-				playbackService.player.clearMediaItems();
-				List<MediaItem> mediaItems = new ArrayList<>();
-				for (VideoItem video : videoList) {
-					MediaItem item = new MediaItem.Builder().setUri(video.getPath()).setMediaId(video.getPath())
-							.setMediaMetadata(new androidx.media3.common.MediaMetadata.Builder()
-									.setTitle(video.getTitle()).build())
-							.build();
-					mediaItems.add(item);
-				}
-				playbackService.player.setMediaItems(mediaItems, position, 0);
-				playbackService.player.prepare();
-				playbackService.player.play();
-			}
-			tvTitle.setText(videoList.get(position).getTitle());
-		} else {
-			if (playbackService.player.getCurrentMediaItem() != null) {
-				tvTitle.setText(playbackService.player.getCurrentMediaItem().mediaMetadata.title);
-			}
-		}
+            // যদি সিঙ্ক না থাকে (ভিন্ন ফোল্ডার বা ভিন্ন ভিডিও), তবেই নতুন করে লোড হবে
+            if (!isPlaylistSynced) {
+                playbackService.player.stop();
+                playbackService.player.clearMediaItems();
 
-		setupSideBar();
-		playbackService.player.addListener(new Player.Listener() {
-			@Override
-			public void onPlaybackStateChanged(int state) {
-				if (state == Player.STATE_READY) {
-					updatePlayerUI();
-				}
-			}
+                // নতুন প্লেলিস্ট তৈরি
+                List<MediaItem> mediaItems = new ArrayList<>();
+                for (VideoItem video : videoList) {
+                    MediaItem item = new MediaItem.Builder()
+                            .setUri(video.getPath())
+                            .setMediaId(video.getPath()) // পাথ-ই আইডি
+                            .setMediaMetadata(new androidx.media3.common.MediaMetadata.Builder()
+                                    .setTitle(video.getTitle())
+                                    .build())
+                            .build();
+                    mediaItems.add(item);
+                }
 
-			@Override
-			public void onIsPlayingChanged(boolean playing) {
-				btnPlayPause.setImageResource(playing ? R.drawable.exo_icon_pause : R.drawable.exo_icon_play);
-				if (playing)
-					startProgressUpdater();
-				else
-					handler.removeCallbacks(updateProgressRunnable);
-			}
+                // লিস্ট সেট করা এবং নির্দিষ্ট পজিশনে জাম্প করা
+                playbackService.player.setMediaItems(mediaItems, position, 0);
+                playbackService.player.prepare();
+                playbackService.player.play();
+            }
+            
+            // টাইটেল নিশ্চিতভাবে সেট করা
+            if (position < videoList.size()) {
+                tvTitle.setText(videoList.get(position).getTitle());
+            }
+        } 
+        else {
+            // Resume Mode (Mini Player বা Notification থেকে)
+            if (playbackService.player.getCurrentMediaItem() != null) {
+                tvTitle.setText(playbackService.player.getCurrentMediaItem().mediaMetadata.title);
+            }
+            
+            // Resume এর ক্ষেত্রেও বর্তমান পজিশন খুঁজে বের করা (হাইলাইটের জন্য)
+            String currentId = "";
+            if (playbackService.player.getCurrentMediaItem() != null) {
+                currentId = playbackService.player.getCurrentMediaItem().mediaId;
+            }
+            
+            for(int i=0; i<videoList.size(); i++) {
+                if (videoList.get(i).getPath().equals(currentId)) {
+                    position = i;
+                    break;
+                }
+            }
+        }
 
-			@Override
-			public void onMediaItemTransition(androidx.media3.common.MediaItem mediaItem, int reason) {
-				if (mediaItem != null && mediaItem.mediaMetadata.title != null) {
-					tvTitle.setText(mediaItem.mediaMetadata.title);
-					resetResizeMode();
-					if (videoList != null) {
-						for (int i = 0; i < videoList.size(); i++) {
-							if (videoList.get(i).getPath().equals(mediaItem.mediaId)) {
-								position = i;
-								break;
-							}
-						}
-					}
-					if (queueAdapter != null) {
-						queueAdapter.updateCurrentPosition(position);
-						if (recyclerQueue != null) {
-							recyclerQueue.scrollToPosition(position);
-						}
-					}
-				}
-			}
-		});
+        // সাইডবার ইনিশিয়ালাইজ (লিস্ট সেট হওয়ার পর)
+        setupSideBar();
 
-		updatePlayerUI();
-		if (playbackService.player.isPlaying()) {
-			btnPlayPause.setImageResource(R.drawable.exo_icon_pause);
-			startProgressUpdater();
-		} else {
-			btnPlayPause.setImageResource(R.drawable.exo_icon_play);
-		}
-	}
+        // --- LISTENER SETUP ---
+        playbackService.player.addListener(new Player.Listener() {
+            @Override
+            public void onPlaybackStateChanged(int state) {
+                if (state == Player.STATE_READY) {
+                    updatePlayerUI();
+                }
+            }
+
+            @Override
+            public void onIsPlayingChanged(boolean playing) {
+                btnPlayPause.setImageResource(playing ? R.drawable.exo_icon_pause : R.drawable.exo_icon_play);
+                if (playing) startProgressUpdater();
+                else handler.removeCallbacks(updateProgressRunnable);
+            }
+
+            @Override
+            public void onMediaItemTransition(androidx.media3.common.MediaItem mediaItem, int reason) {
+                // ভিডিও পাল্টালে টাইটেল এবং সাইডবার আপডেট
+                if (mediaItem != null) {
+                    if (mediaItem.mediaMetadata.title != null) {
+                        tvTitle.setText(mediaItem.mediaMetadata.title);
+                    }
+                    
+                    // পজিশন আপডেট (লুপ ব্যবহার করে)
+                    for(int i = 0; i < videoList.size(); i++){
+                        if(videoList.get(i).getPath().equals(mediaItem.mediaId)){
+                            position = i;
+                            break;
+                        }
+                    }
+                    
+                    // সাইডবার হাইলাইট আপডেট
+                    if (queueAdapter != null) {
+                        queueAdapter.updateCurrentPosition(position);
+                        if (recyclerQueue != null) {
+                            recyclerQueue.scrollToPosition(position);
+                        }
+                    }
+                    
+                    // স্কেল রিসেট
+                    resetResizeMode();
+                }
+            }
+        });
+
+        // UI Force Update
+        updatePlayerUI();
+        
+        if (playbackService.player.isPlaying()) {
+            btnPlayPause.setImageResource(R.drawable.exo_icon_pause);
+            startProgressUpdater();
+        } else {
+            btnPlayPause.setImageResource(R.drawable.exo_icon_play);
+        }
+    }
 
 	private void updatePlayerUI() {
 		if (playbackService != null && playbackService.player != null) {
@@ -413,23 +454,71 @@ public class PlayerActivity extends AppCompatActivity {
 	}
 
 	private void setupSideBar() {
-		recyclerQueue.setLayoutManager(new LinearLayoutManager(this));
-		queueAdapter = new QueueAdapter(this, videoList, pos -> {
-			if (playbackService != null && playbackService.player != null) {
-				playbackService.player.seekTo(pos, 0);
-				playbackService.player.play();
-				position = pos;
-				tvTitle.setText(videoList.get(position).getTitle());
-				queueAdapter.updateCurrentPosition(pos);
-			}
-			drawerLayout.closeDrawer(GravityCompat.END);
-		});
-		recyclerQueue.setAdapter(queueAdapter);
-		if (position != -1) {
-			queueAdapter.updateCurrentPosition(position);
-			recyclerQueue.scrollToPosition(position);
-		}
-	}
+        recyclerQueue.setLayoutManager(new LinearLayoutManager(this));
+        
+        // এখানে ক্লিক লিসেনারে "Force Play" লজিক বসানো হয়েছে
+        queueAdapter = new QueueAdapter(this, videoList, pos -> {
+            if (playbackService != null && playbackService.player != null) {
+                
+                // ১. সিঙ্ক চেক: প্লেয়ারের প্লেলিস্ট এবং আমাদের ভিডিও লিস্টের সাইজ মিলছে কিনা
+                // অথবা প্লেয়ারের বর্তমান আইটেমের সাথে লিস্টের আইটেম মিলছে কিনা।
+                // যদি সন্দেহ থাকে, আমরা রিস্ক নিব না, নতুন করে প্লেলিস্ট সেট করব।
+                
+                boolean needToReload = false;
+                
+                // কন্ডিশন ১: সাইজ না মিললে
+                if (playbackService.player.getMediaItemCount() != videoList.size()) {
+                    needToReload = true;
+                } 
+                // কন্ডিশন ২ (অপশনাল): সাইজ মিললেও যদি আইডি ম্যাচ না করে (ডিপ চেক)
+                // তবে পারফরম্যান্সের জন্য সাধারণত সাইজ চেকই যথেষ্ট।
+                
+                if (needToReload) {
+                    // প্লেলিস্ট রি-বিল্ড করা (যাতে কোনো কনফ্লিক্ট না থাকে)
+                    List<MediaItem> mediaItems = new ArrayList<>();
+                    for (VideoItem video : videoList) {
+                        MediaItem item = new MediaItem.Builder()
+                                .setUri(video.getPath())
+                                .setMediaId(video.getPath())
+                                .setMediaMetadata(new androidx.media3.common.MediaMetadata.Builder()
+                                        .setTitle(video.getTitle())
+                                        .build())
+                                .build();
+                        mediaItems.add(item);
+                    }
+                    // নতুন লিস্ট সেট করে সরাসরি পজিশনে জাম্প
+                    playbackService.player.setMediaItems(mediaItems, pos, 0);
+                    playbackService.player.prepare();
+                } else {
+                    // যদি সব ঠিক থাকে, শুধু জাম্প করো
+                    playbackService.player.seekTo(pos, 0);
+                }
+
+                // ২. প্লে কমান্ড এবং UI আপডেট
+                playbackService.player.play();
+                position = pos;
+                
+                // টাইটেল এবং হাইলাইট আপডেট
+                tvTitle.setText(videoList.get(position).getTitle());
+                
+                if (queueAdapter != null) {
+                    queueAdapter.updateCurrentPosition(position);
+                    recyclerQueue.scrollToPosition(position);
+                }
+            }
+            
+            // ৩. ড্রয়ার বন্ধ করা
+            drawerLayout.closeDrawer(GravityCompat.END);
+        });
+        
+        recyclerQueue.setAdapter(queueAdapter);
+        
+        // বর্তমান ভিডিও হাইলাইট করা
+        if(position != -1 && position < videoList.size()) {
+            queueAdapter.updateCurrentPosition(position);
+            recyclerQueue.scrollToPosition(position);
+        }
+    }
 
 	private void initListeners() {
 		btnBack.setOnClickListener(v -> onBackPressed());

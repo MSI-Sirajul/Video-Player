@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- ক্যাশ মেমোরি ব্যাকআপ নেওয়া হবে না, এতে ইউজারের ড্রাইভ বা ক্লাউড স্টোরেজ বাঁচবে -->
+    <exclude domain="cache" path="."/>
+    <exclude domain="root" path="cache"/>
+    
+    <!-- থাম্বনেইল ক্যাশ বাদ দেওয়া হলো -->
+    <exclude domain="cache" path="video_thumbnails"/>
+</full-backup-content>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/_150sdp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_popup_menu"
+    android:paddingVertical="@dimen/_5sdp">
+
+    <!-- 1. Play Option (Blue Tint) -->
+    <LinearLayout
+        android:id="@+id/menu_item_play"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/_12sdp"
+        android:paddingVertical="@dimen/_8sdp"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:src="@drawable/exo_icon_play"
+            app:tint="#2196F3"/> <!-- Blue -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Play"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/_11ssp"
+            android:layout_marginStart="@dimen/_12sdp"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1A888888" android:layout_marginVertical="@dimen/_2sdp"/>
+
+    <!-- 2. Info Option (Blue Tint) -->
+    <LinearLayout
+        android:id="@+id/menu_item_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/_12sdp"
+        android:paddingVertical="@dimen/_8sdp"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:src="@drawable/ic_info"
+            app:tint="#2196F3"/> <!-- Blue -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Properties"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/_11ssp"
+            android:layout_marginStart="@dimen/_12sdp"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1A888888" android:layout_marginVertical="@dimen/_2sdp"/>
+
+    <!-- 3. File Path Option (Green Tint) -->
+    <LinearLayout
+        android:id="@+id/menu_item_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/_12sdp"
+        android:paddingVertical="@dimen/_8sdp"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:src="@drawable/ic_folder_tab"
+            app:tint="#4CAF50"/> <!-- Green -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="File Path"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/_11ssp"
+            android:layout_marginStart="@dimen/_12sdp"/>
+    </LinearLayout>
+
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#1A888888" android:layout_marginVertical="@dimen/_2sdp"/>
+
+    <!-- 4. Delete Option (Red Tint) -->
+    <LinearLayout
+        android:id="@+id/menu_item_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="@dimen/_12sdp"
+        android:paddingVertical="@dimen/_8sdp"
+        android:background="?attr/selectableItemBackground">
+
+        <!-- ডিলেট আইকনের জন্য ic_delete বা ic_close ব্যবহার করতে পারেন, এখানে ic_close ব্যবহার করা হলো -->
+        <ImageView
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:src="@drawable/ic_close" 
+            app:tint="#F44336"/> <!-- Red -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:textColor="#F44336"
+            android:textSize="@dimen/_11ssp"
+            android:layout_marginStart="@dimen/_12sdp"/>
+    </LinearLayout>
+
+</LinearLayout>

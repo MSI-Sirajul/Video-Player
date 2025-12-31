@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_20sdp"
+    app:cardBackgroundColor="@color/secondary_bg"
+    app:cardCornerRadius="@dimen/_15sdp"
+    app:cardElevation="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="@dimen/_15sdp">
+
+        <!-- Header: Video Title -->
+        <TextView
+            android:id="@+id/menu_video_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Video Name"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/_13ssp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/_15sdp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginBottom="@dimen/_10sdp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginBottom="@dimen/_5sdp"/>
+
+        <!-- 1. Play Option -->
+        <LinearLayout
+            android:id="@+id/menu_item_play"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/_20sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:src="@drawable/exo_icon_play"
+                app:tint="#2196F3"/> <!-- Blue -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Play Video"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginStart="@dimen/_15sdp"/>
+        </LinearLayout>
+
+        <!-- 2. Properties Option -->
+        <LinearLayout
+            android:id="@+id/menu_item_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/_20sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:src="@drawable/ic_info"
+                app:tint="#2196F3"/> <!-- Blue -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Properties"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginStart="@dimen/_15sdp"/>
+        </LinearLayout>
+
+        <!-- 3. File Path Option -->
+        <LinearLayout
+            android:id="@+id/menu_item_path"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/_20sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:src="@drawable/ic_folder_tab"
+                app:tint="#4CAF50"/> <!-- Green -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="File Location"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginStart="@dimen/_15sdp"/>
+        </LinearLayout>
+
+        <!-- 4. Delete Option -->
+        <LinearLayout
+            android:id="@+id/menu_item_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="@dimen/_20sdp"
+            android:paddingVertical="@dimen/_10sdp"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="@dimen/_22sdp"
+                android:layout_height="@dimen/_22sdp"
+                android:src="@drawable/ic_close"
+                app:tint="#F44336"/> <!-- Red -->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:textColor="#F44336"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginStart="@dimen/_15sdp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

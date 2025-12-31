@@ -10,9 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="@dimen/_60sdp"/> <!-- Bottom padding for MiniPlayer/Indicator -->
+        android:paddingBottom="@dimen/_60sdp"
+        android:scrollbars="vertical" 
+        android:scrollbarThumbVertical="@color/colorAccent"
+        android:scrollbarSize="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <!-- Empty State Text (Optional) -->
     <TextView
         android:id="@+id/tv_empty"
         android:layout_width="wrap_content"

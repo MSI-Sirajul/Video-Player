@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Brand Colors -->
-    <color name="colorPrimary">#1976D2</color>
-    <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#448AFF</color>
+    <!-- Brand Colors (Dark mode - same primary colors) -->
+    <color name="colorPrimary">#2196F3</color>      <!-- Lighter blue for dark mode -->
+    <color name="colorPrimaryDark">#121212</color>  <!-- Original blue for status bar -->
+    <color name="colorAccent">#58AAf3</color>       <!-- Lighter orange accent -->
 
     <!-- Dynamic Backgrounds (Dark) -->
-    <color name="primary_bg">#000000</color>       <!-- মেইন স্ক্রিন কালো -->
-    <color name="secondary_bg">#121212</color>     <!-- লিস্ট আইটেম ডার্ক গ্রে -->
-    <color name="popup_bg">#1E1E1E</color>         <!-- পপআপ মেনু একটু হালকা কালো -->
+    <color name="primary_bg">#121212</color>        <!-- Dark gray main background -->
+    <color name="secondary_bg">#1f1f1f</color>      <!-- Slightly lighter for surfaces -->
+    <color name="popup_bg">#242424</color>          <!-- Popup background -->
     
     <!-- Dynamic Text & Icons (Dark) -->
-    <color name="primary_text">#FFFFFF</color>     <!-- সাদা লেখা -->
-    <color name="secondary_text">#B3B3B3</color>   <!-- হালকা ধূসর লেখা -->
+    <color name="primary_text">#FFFFFF</color>      <!-- White primary text -->
+    <color name="secondary_text">#B0B0B0</color>    <!-- Light gray secondary text -->
     
     <!-- Others -->
-    <color name="divider">#1FFFFFFF</color>        <!-- হালকা সাদা বর্ডার -->
+    <color name="divider">#2D2D2D</color>           <!-- Dark gray divider -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="ripple_color">#42FFFFFF</color>
+    <color name="ripple_color">#33FFFFFF</color>
+    <color name="background_dark">#05060b</color>    <!-- White ripple effect -->
 </resources>

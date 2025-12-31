@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/primary_bg">
 
-    <!-- TOP BAR -->
+    <!-- TOOLBAR -->
     <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
             android:layout_toEndOf="@id/btn_back"/>
     </RelativeLayout>
 
-    <!-- SCROLLABLE CONTENT -->
+    <!-- SCROLL CONTENT -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -48,208 +48,252 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/_15sdp">
-
-            <!-- 1. SORT BY SECTION -->
-            <TextView
-                style="@style/SettingsHeader"
-                android:text="SORT BY"/>
-
-            <LinearLayout style="@style/SettingsCard">
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="Name (A-Z / Z-A)"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_sort_name" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-                <View style="@style/SettingsDivider"/>
-                
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="Date (Newest)"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_sort_date" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-                <View style="@style/SettingsDivider"/>
-
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="Size (Largest)"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_sort_size" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-                <View style="@style/SettingsDivider"/>
-
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="Duration (Length)"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_sort_duration" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <!-- 2. VIEW MODE SECTION -->
-            <TextView
-                style="@style/SettingsHeader"
-                android:text="VIEW MODE"/>
-
-            <LinearLayout style="@style/SettingsCard">
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="List View"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_view_list" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-                <View style="@style/SettingsDivider"/>
-
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="Grid View"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_view_grid" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-            </LinearLayout>
-
+            android:paddingHorizontal="@dimen/_10sdp">
+            
+            
             <!-- 3. DEFAULT HOME PAGE -->
-            <TextView
-                style="@style/SettingsHeader"
-                android:text="DEFAULT HOME PAGE"/>
-
+            <TextView style="@style/SettingsHeader" android:text="DEFAULT HOME PAGE"/>
             <LinearLayout style="@style/SettingsCard">
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="All Videos"/>
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_home_all">
+                    <ImageView android:src="@drawable/ic_home_video" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_home_all" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_home_all" android:text="@string/desc_off_home_all" style="@style/SettingsDescription"/>
+                    </LinearLayout>
                     <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_home_all" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
+                </LinearLayout>
                 <View style="@style/SettingsDivider"/>
 
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="Folder"/>
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_home_folder">
+                    <ImageView android:src="@drawable/ic_folder_open" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_home_folder" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_home_folder" android:text="@string/desc_off_home_folder" style="@style/SettingsDescription"/>
+                    </LinearLayout>
                     <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_home_folder" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <!-- 4. HIDE / SHOW FILES -->
-            <TextView
-                style="@style/SettingsHeader"
-                android:text="HIDE / SHOW FILES"/>
-
-            <LinearLayout style="@style/SettingsCard">
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="Show Hidden Video"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_show_hidden" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-                <View style="@style/SettingsDivider"/>
-
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="Hide Short u.30s"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_hide_short" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <!-- 5. FILTER VIDEOS -->
-            <TextView
-                style="@style/SettingsHeader"
-                android:text="FILTER VIDEOS"/>
-
-            <LinearLayout style="@style/SettingsCard">
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="All Video"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_filter_all" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-                <View style="@style/SettingsDivider"/>
-
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="MP4"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_filter_mp4" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-                <View style="@style/SettingsDivider"/>
-
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="MKV"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_filter_mkv" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-                <View style="@style/SettingsDivider"/>
-
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="3GP"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_filter_3gp" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
-                <View style="@style/SettingsDivider"/>
-
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="AVI"/>
-                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_filter_avi" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <!-- 6. STORAGE -->
-            <TextView
-                style="@style/SettingsHeader"
-                android:text="STORAGE"/>
-
+            <TextView style="@style/SettingsHeader" android:text="STORAGE"/>
             <LinearLayout style="@style/SettingsCard">
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="Internal Storage"/>
+                <LinearLayout style="@style/SettingsRow">
+                    <ImageView android:src="@drawable/ic_internal_storage" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_storage_internal" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_storage_internal" android:text="@string/desc_off_storage_internal" style="@style/SettingsDescription"/>
+                    </LinearLayout>
                     <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_storage_internal" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
+                </LinearLayout>
                 <View style="@style/SettingsDivider"/>
 
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="SD Card"/>
+                <LinearLayout style="@style/SettingsRow">
+                    <ImageView android:src="@drawable/ic_sd_card" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_storage_sd" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_storage_sd" android:text="@string/desc_off_storage_sd" style="@style/SettingsDescription"/>
+                    </LinearLayout>
                     <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_storage_sd" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>            
+                     
+            <!-- 1. SORT BY -->
+            <TextView style="@style/SettingsHeader" android:text="SORT BY"/>
+            <LinearLayout style="@style/SettingsCard">
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_sort_name">
+                    <ImageView android:src="@drawable/ic_sort_az" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_sort_name" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_sort_name" android:text="@string/desc_off_sort_name" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_sort_name" style="@style/SettingsSwitch"/>
+                </LinearLayout>
+                <View style="@style/SettingsDivider"/>
+
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_sort_date">
+                    <ImageView android:src="@drawable/ic_date" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_sort_date" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_sort_date" android:text="@string/desc_off_sort_date" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_sort_date" style="@style/SettingsSwitch"/>
+                </LinearLayout>
+                <View style="@style/SettingsDivider"/>
+
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_sort_size">
+                    <ImageView android:src="@drawable/ic_storage_size" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_sort_size" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_sort_size" android:text="@string/desc_off_sort_size" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_sort_size" style="@style/SettingsSwitch"/>
+                </LinearLayout>
+                <View style="@style/SettingsDivider"/>
+
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_sort_duration">
+                    <ImageView android:src="@drawable/ic_time" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_sort_duration" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_sort_duration" android:text="@string/desc_off_sort_duration" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_sort_duration" style="@style/SettingsSwitch"/>
+                </LinearLayout>
             </LinearLayout>
 
             <!-- 7. THEME -->
-            <TextView
-                style="@style/SettingsHeader"
-                android:text="THEME"/>
-
+            <TextView style="@style/SettingsHeader" android:text="THEME"/>
             <LinearLayout style="@style/SettingsCard">
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="Auto (System Default)"/>
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_theme_auto">
+                    <ImageView android:src="@drawable/ic_theme_auto" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_theme_auto" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_theme_auto" android:text="@string/desc_off_theme_auto" style="@style/SettingsDescription"/>
+                    </LinearLayout>
                     <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_theme_auto" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
+                </LinearLayout>
                 <View style="@style/SettingsDivider"/>
 
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="Dark Mode"/>
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_theme_dark">
+                    <ImageView android:src="@drawable/ic_theme_dark" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_theme_dark" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_theme_dark" android:text="@string/desc_off_theme_dark" style="@style/SettingsDescription"/>
+                    </LinearLayout>
                     <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_theme_dark" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
+                </LinearLayout>
                 <View style="@style/SettingsDivider"/>
 
-                <RelativeLayout style="@style/SettingsRow">
-                    <TextView style="@style/SettingsText" android:text="Light Mode"/>
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_theme_light">
+                    <ImageView android:src="@drawable/ic_theme_light" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_theme_light" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_theme_light" android:text="@string/desc_off_theme_light" style="@style/SettingsDescription"/>
+                    </LinearLayout>
                     <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_theme_light" style="@style/SettingsSwitch"/>
-                </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+            
+            <!-- 2. VIEW MODE -->
+            <TextView style="@style/SettingsHeader" android:text="VIEW MODE"/>
+            <LinearLayout style="@style/SettingsCard">
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_view_list">
+                    <ImageView android:src="@drawable/ic_view_list" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_view_list" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_view_list" android:text="@string/desc_off_view_list" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_view_list" style="@style/SettingsSwitch"/>
+                </LinearLayout>
+                <View style="@style/SettingsDivider"/>
+
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_view_grid">
+                    <ImageView android:src="@drawable/ic_view_grid" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_view_grid" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_view_grid" android:text="@string/desc_off_view_grid" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_view_grid" style="@style/SettingsSwitch"/>
+                </LinearLayout>
             </LinearLayout>
 
-            <!-- 8. OTHERS (Share & Info) -->
-            <TextView
-                style="@style/SettingsHeader"
-                android:text="OTHERS"/>
 
+
+            <!-- 4. HIDE / SHOW FILES -->
+            <TextView style="@style/SettingsHeader" android:text="HIDE / SHOW FILES"/>
             <LinearLayout style="@style/SettingsCard">
-                <RelativeLayout 
-                    android:id="@+id/btn_share_app"
-                    style="@style/SettingsRow"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView style="@style/SettingsText" android:text="Share App"/>
-                    <ImageView
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        android:src="@drawable/ic_share"
-                        app:tint="@color/secondary_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>
+                <LinearLayout style="@style/SettingsRow">
+                    <ImageView android:src="@drawable/ic_hidden_file" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_show_hidden" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_show_hidden" android:text="@string/desc_off_show_hidden" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_show_hidden" style="@style/SettingsSwitch"/>
+                </LinearLayout>
                 <View style="@style/SettingsDivider"/>
 
-                <RelativeLayout 
-                    android:id="@+id/btn_app_info"
-                    style="@style/SettingsRow"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView style="@style/SettingsText" android:text="App Info"/>
-                    <ImageView
-                        android:layout_width="@dimen/_18sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        android:src="@drawable/ic_info"
-                        app:tint="@color/secondary_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>
+                <LinearLayout style="@style/SettingsRow">
+                    <ImageView android:src="@drawable/ic_short_video" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_hide_short" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_hide_short" android:text="@string/desc_off_hide_short" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_hide_short" style="@style/SettingsSwitch"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <!-- 5. FILTER VIDEOS (MISSING PARTS ADDED HERE) -->
+            <TextView style="@style/SettingsHeader" android:text="FILTER VIDEOS"/>
+            <LinearLayout style="@style/SettingsCard">
+                <!-- All Video -->
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_filter_all">
+                    <ImageView android:src="@drawable/ic_video_file" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_filter_all" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_filter_all" android:text="@string/desc_off_filter_all" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_filter_all" style="@style/SettingsSwitch"/>
+                </LinearLayout>
+                <View style="@style/SettingsDivider"/>
+
+                <!-- MP4 -->
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_filter_mp4">
+                    <ImageView android:src="@drawable/ic_video_file" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_filter_mp4" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_filter_mp4" android:text="@string/desc_off_filter_mp4" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_filter_mp4" style="@style/SettingsSwitch"/>
+                </LinearLayout>
+                <View style="@style/SettingsDivider"/>
+
+                <!-- MKV -->
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_filter_mkv">
+                    <ImageView android:src="@drawable/ic_video_file" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_filter_mkv" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_filter_mkv" android:text="@string/desc_off_filter_mkv" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_filter_mkv" style="@style/SettingsSwitch"/>
+                </LinearLayout>
+                <View style="@style/SettingsDivider"/>
+
+                <!-- 3GP (ADDED) -->
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_filter_3gp">
+                    <ImageView android:src="@drawable/ic_video_file" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_filter_3gp" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_filter_3gp" android:text="@string/desc_off_filter_3gp" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_filter_3gp" style="@style/SettingsSwitch"/>
+                </LinearLayout>
+                <View style="@style/SettingsDivider"/>
+
+                <!-- AVI (ADDED) -->
+                <LinearLayout style="@style/SettingsRow" android:id="@+id/row_filter_avi">
+                    <ImageView android:src="@drawable/ic_video_file" style="@style/SettingsIcon"/>
+                    <LinearLayout style="@style/SettingsTextContainer">
+                        <TextView android:text="@string/title_filter_avi" style="@style/SettingsTitle"/>
+                        <TextView android:id="@+id/desc_filter_avi" android:text="@string/desc_off_filter_avi" style="@style/SettingsDescription"/>
+                    </LinearLayout>
+                    <androidx.appcompat.widget.SwitchCompat android:id="@+id/switch_filter_avi" style="@style/SettingsSwitch"/>
+                </LinearLayout>
+            </LinearLayout>
+
+           
+            <!-- OTHERS (Share & Info) -->
+            <TextView style="@style/SettingsHeader" android:text="OTHERS"/>
+            <LinearLayout style="@style/SettingsCard">
+                <LinearLayout android:id="@+id/btn_share_app" style="@style/SettingsRow">
+                    <ImageView android:src="@drawable/ic_share_app" style="@style/SettingsIcon"/>
+                    <TextView android:text="Share App" style="@style/SettingsTitle"/>
+                </LinearLayout>
+                <View style="@style/SettingsDivider"/>
+
+                <LinearLayout android:id="@+id/btn_app_info" style="@style/SettingsRow">
+                    <ImageView android:src="@drawable/ic_info" style="@style/SettingsIcon"/>
+                    <TextView android:text="App Info" style="@style/SettingsTitle"/>
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

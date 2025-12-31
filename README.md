@@ -1,96 +1,101 @@
-<div align="center">
+# Advanced Video Player
 
-  <img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="logo" width="100" height="100" />
+![Android](https://img.shields.io/badge/Platform-Android-3DDC84?style=flat-square&logo=android&logoColor=white)
+![Language](https://img.shields.io/badge/Language-Java-007396?style=flat-square&logo=java&logoColor=white)
+![Developer](https://img.shields.io/badge/Developer-MSI--Sirajul-blue?style=flat-square)
+![License](https://img.shields.io/badge/License-MIT-orange?style=flat-square)
+![Size](https://img.shields.io/github/repo-size/MSI-Sirajul/Video-Player?style=flat-square&color=red)
 
-  # Video Player Pro
-  
-  **ম্যাটেরিয়াল ডিজাইন ৩ (MD3) ভিত্তিক একটি আধুনিক এবং লাইটওয়েট অ্যান্ড্রয়েড ভিডিও প্লেয়ার।**
-  <br>
-  কোনো ভারী লাইব্রেরি ছাড়া সম্পূর্ণ নেটিভ কোডে তৈরি।
+A powerful, highly optimized, and feature-rich Android Video Player built using the Media3 (ExoPlayer) library. Designed with a focus on User Experience (UX), performance, and a modern Material Design interface. It supports all major video formats, background playback, gestures, and advanced file management.
 
-  <br>
+**Project Link:** [Video-Player](https://github.com/MSI-Sirajul/Video-Player)
 
-  <!-- BADGES -->
-  <a href="https://github.com/MSI-Sirajul/Video-Player-Pro/releases">
-    <img src="https://img.shields.io/github/v/release/MSI-Sirajul/REPO_NAME?style=for-the-badge&color=FF8C42&label=LATEST%20RELEASE" alt="Release" />
-  </a>
-  
-  <a href="https://github.com/MSI-Sirajul">
-    <img src="https://img.shields.io/badge/DEVELOPER-PROFILE-1F130F?style=for-the-badge&logo=github&logoColor=white" alt="Developer" />
-  </a>
+## App Previews
 
-  <a href="#">
-    <img src="https://img.shields.io/badge/PLATFORM-ANDROID-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Platform" />
-  </a>
+| Home Screen | Video Player | Settings Menu |
+|:---:|:---:|:---:|
+| ![Home](asset/image1.png) | ![Player](screenshots/image3.png) | ![Settings](screenshots/settings.png) |
 
-  <a href="#">
-    <img src="https://img.shields.io/badge/LICENSE-MIT-blue?style=for-the-badge" alt="License" />
-  </a>
+| Mini Player | Audio Booster | Folder View |
+|:---:|:---:|:---:|
+| ![MiniPlayer](asset/image2.png) | ![Booster](screenshots/booster.png) | ![Folder](screenshots/folder.png) |
 
-</div>
+*(Note: Please upload screenshots to a 'screenshots' folder in your repository to make these images visible.)*
 
----
+## Key Features
 
-## 📱 UI প্রিভিউ (Screenshots)
+### Playback Experience
+*   **Core Engine:** Built on top of the robust Media3 ExoPlayer library for smooth playback.
+*   **Background Play:** Continue listening to audio even when the app is minimized or the screen is locked, complete with a persistent notification bar.
+*   **Mini Player:** A floating mini-player allows seamless navigation within the app while the video continues to play.
+*   **Resume Support:** Automatically remembers the last played position for all videos.
+*   **Audio Booster:** Integrated software audio booster to increase volume up to 150%.
+*   **Speed Control:** Adjustable playback speed ranging from 0.5x to 2.0x.
 
-<div align="center">
-  <table>
-    <tr>
-      <td align="center"><b>মেইন লিস্ট (Dark)</b></td>
-      <td align="center"><b>প্লেয়ার ইন্টারফেস</b></td>
-      <td align="center"><b>ফোল্ডার ভিউ</b></td>
-    </tr>
-    <tr>
-      <td>
-        <!-- নিচের লিংকে আপনার স্ক্রিনশট বসান -->
-        <img src="screenshots/home.png" width="200" alt="Home Screen" />
-      </td>
-      <td>
-        <img src="screenshots/player.png" width="200" alt="Player Screen" />
-      </td>
-      <td>
-        <img src="screenshots/folder.png" width="200" alt="Folder Screen" />
-      </td>
-    </tr>
-  </table>
-</div>
+### Smart Controls & Gestures
+*   **Intuitive Gestures:** Swipe controls for Volume (Right), Brightness (Left), and Seek (Horizontal).
+*   **Smart Pinch Zoom:** Zoom in/out (25% to 400%) with real-time percentage indication.
+*   **Safe Zone Logic:** Prevents accidental system bar triggers during gesture usage.
+*   **Screen Lock:** Lock mode to prevent accidental touches during playback.
+*   **Orientation:** Automatic sensor-based rotation with manual override.
 
-## ✨ ফিচারসমূহ (Features)
+### Library & File Management
+*   **Scanning:** Fast background scanning using a custom database helper.
+*   **View Modes:** Toggle between Grid View and List View.
+*   **Sorting:** Sort videos by Name, Date, Size, or Duration.
+*   **Filtering:** Filter content by specific extensions (MP4, MKV, etc.) or hide short videos.
+*   **Folder Support:** Browse videos via specific folders with storage indication (Internal/SD Card).
+*   **Search:** Global search functionality to find videos instantly.
 
-*   🎨 **মডার্ন UI:** গুগল ম্যাটেরিয়াল ইউ (Material You) ইন্সপায়ার্ড ডিজাইন।
-*   📺 **স্মার্ট প্লেয়ার:** জেসচার কন্ট্রোল (Volume, Brightness, Seek)।
-*   🖼️ **PiP মোড:** মাল্টি-টাস্কিংয়ের জন্য পিকচার-ইন-পিকচার সাপোর্ট।
-*   📂 **ফোল্ডার সাপোর্ট:** অটোমেটিক ভিডিও ফোল্ডার ডিটেকশন এবং গ্রিড/লিস্ট ভিউ।
-*   📸 **স্ক্রিনশট:** ভিডিও চলাকালীন যেকোনো মুহূর্ত ক্যাপচার করার সুবিধা।
-*   🔒 **প্রাইভেসি লক:** ভিডিও দেখার সময় স্ক্রিন লক ফিচার।
-*   🌙 **ডার্ক মোড:** চোখের আরামের জন্য সম্পূর্ণ ডার্ক থিম সাপোর্ট।
+### UI & Customization
+*   **Material Design:** Clean, minimal, and responsive UI optimized for all screen densities (SDP/SSP support).
+*   **Themes:** Full support for System Default, Dark Mode, and Light Mode.
+*   **Animations:** Smooth Lottie animations for loading states and slide transitions for fragments.
 
-## 🔐 প্রয়োজনীয় পারমিশন (Permissions)
-
-অ্যাপটি সঠিকভাবে কাজ করার জন্য শুধুমাত্র স্টোরেজ পারমিশন প্রয়োজন।
-
-| আইকন | পারমিশন | বিবরণ |
-| :---: | :--- | :--- |
-| 💾 | `READ_EXTERNAL_STORAGE` | ভিডিও লোড করার জন্য (Android 12 বা তার নিচে) |
-| 🎥 | `READ_MEDIA_VIDEO` | ভিডিও অ্যাক্সেস করার জন্য (Android 13+) |
-
-## 🛠️ টেকনোলজি (Tech Stack)
+## Technical Stack & Libraries
 
 *   **Language:** Java
-*   **Architecture:** Single Activity (Optimization)
-*   **Libraries:** AppCompat, ConstraintLayout, RecyclerView
-*   **Core:** Native `VideoView` & `MediaPlayer`
+*   **Minimum SDK:** 24 (Android 7.0)
+*   **Target SDK:** 34 (Android 14)
+*   **Architecture:** MVVM Pattern (Partial), Room/SQLite Database
 
-## 📥 ডাউনলোড (Download)
+### Dependencies
+*   **Media3 ExoPlayer:** `androidx.media3:media3-exoplayer` (Core Player)
+*   **Media3 UI:** `androidx.media3:media3-ui` (Player Views)
+*   **Media3 Session:** `androidx.media3:media3-session` (Background Service)
+*   **Glide:** `com.github.bumptech.glide:glide` (Image/Thumbnail Loading)
+*   **Lottie:** `com.airbnb.android:lottie` (Vector Animations)
+*   **SDP & SSP:** `com.intuit.sdp` / `com.intuit.ssp` (Responsive Layout Dimensions)
+*   **AndroidX:** AppCompat, ConstraintLayout, RecyclerView, CardView, ViewPager2
 
-<div align="center">
-  <a href="https://github.com/MSI-Sirajul/Video-Player-Pro/releases/latest">
-    <img src="https://img.shields.io/badge/DOWNLOAD%20APK-FF8C42?style=for-the-badge&logo=android&logoColor=black" alt="Download APK" />
-  </a>
-</div>
+## Required Permissions
+
+The application requires the following permissions to function correctly:
+
+*   `READ_EXTERNAL_STORAGE` / `READ_MEDIA_VIDEO`: To scan and list video files from the device.
+*   `FOREGROUND_SERVICE`: To maintain background playback and notification controls.
+*   `POST_NOTIFICATIONS`: To display the media control notification (Android 13+).
+*   `WAKE_LOCK`: To keep the screen on during video playback.
+
+## Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/MSI-Sirajul/Video-Player.git
+    ```
+2.  Open the project in **Android Studio**.
+3.  Sync the Gradle project to download dependencies.
+4.  Build and Run the application on your Android device or emulator.
+
+## Developer Info
+
+**Developed by:** MSI-Sirajul
+
+*   **GitHub:** [MSI-Sirajul](https://github.com/MSI-Sirajul)
+*   **Repository:** [Video Player](https://github.com/MSI-Sirajul/Video-Player)
+
+If you find this project useful, please consider giving it a star on GitHub.
 
 ---
 
-<div align="center">
-  <sub>Built with ❤️ by <a href="https://github.com/MSI-Sirajul">Your Name</a></sub>
-</div>
+*This project is for educational and open-source purposes.*

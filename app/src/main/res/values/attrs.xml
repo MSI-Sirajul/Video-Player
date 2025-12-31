@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Custom color attributes for dynamic theming -->
+    <attr name="primary_bg" format="color" />
+    <attr name="secondary_bg" format="color" />
+    <attr name="popup_bg" format="color" />
+    <attr name="primary_text" format="color" />
+    <attr name="secondary_text" format="color" />
+    <attr name="divider" format="color" />
+    <attr name="ripple_color" format="color" />
+    <attr name="white" format="color" />
+    <attr name="black" format="color" />
+    <attr name="background_dark" format="color" />   
+</resources>

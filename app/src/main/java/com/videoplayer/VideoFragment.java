@@ -39,21 +39,23 @@ public class VideoFragment extends Fragment {
         dbHelper = new VideoDatabaseHelper(getContext());
         settingsManager = new SettingsManager(getContext());
 
+        // প্রথমবার লোড হবে
         loadVideos();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // সেটিংস বা ডাটাবেস চেঞ্জ হলে অটোমেটিক আপডেট হবে
-        loadVideos();
+        // FIX: এখানে loadVideos() কল করবেন না। এটি রিসেট করে দেয়।
+        // MainActivity প্রয়োজন হলে রিফ্রেশ করবে।
     }
 
-    // পাবলিক মেথড: MainActivity থেকে কল করার জন্য
     public void loadVideos() {
         if (getContext() == null) return;
 
-        // ১. সর্টিং
+        // যদি অ্যাডাপ্টার আগে থেকেই থাকে এবং লিস্ট খালি না হয়, তবে শুধু ডাটা আপডেট করব
+        // এটি স্ক্রল পজিশন ঠিক রাখতে সাহায্য করে
+        
         int sortType = settingsManager.getSortType();
         videoList = dbHelper.getAllVideos(sortType);
 
@@ -64,22 +66,44 @@ public class VideoFragment extends Fragment {
             tvEmpty.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
 
-            // ২. ভিউ মোড (Grid/List)
             int viewMode = settingsManager.getViewMode();
-            if (viewMode == SettingsManager.VIEW_GRID) {
-                recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-            } else {
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            
+            // লেআউট ম্যানেজার সেট করা (যদি আগে না থাকে)
+            if (recyclerView.getLayoutManager() == null) {
+                if (viewMode == SettingsManager.VIEW_GRID) {
+                    recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+                } else {
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                }
             }
 
-            // ৩. অ্যাডাপ্টার সেটআপ
-            videoAdapter = new VideoAdapter(getContext(), videoList, (pos) -> {
-                Intent intent = new Intent(getContext(), PlayerActivity.class);
-                intent.putExtra("position", pos);
-                PlayerActivity.videoList = videoList; 
-                startActivity(intent);
-            });
-            recyclerView.setAdapter(videoAdapter);
+            if (videoAdapter == null) {
+                videoAdapter = new VideoAdapter(getContext(), videoList, (pos) -> {
+                    Intent intent = new Intent(getContext(), PlayerActivity.class);
+                    intent.putExtra("position", pos);
+                    PlayerActivity.videoList = videoList; 
+                    startActivity(intent);
+                });
+                recyclerView.setAdapter(videoAdapter);
+            } else {
+                // শুধু ডাটা আপডেট, স্ক্রল পজিশন রিসেট হবে না
+                videoAdapter.updateViewMode(viewMode);
+                videoAdapter.updateList(videoList);
+            }
+        }
+    }
+    
+    // নতুন মেথড: হাইলাইট আপডেট করার জন্য
+    public void updateHighlight(String currentPath) {
+        if (videoAdapter != null && videoList != null) {
+            for (int i = 0; i < videoList.size(); i++) {
+                if (videoList.get(i).getPath().equals(currentPath)) {
+                    videoAdapter.setCurrentPlayingPosition(i);
+                    // অপশনাল: যদি হাইলাইট করা ভিডিও সামনে আনতে চান
+                    // recyclerView.scrollToPosition(i); 
+                    break;
+                }
+            }
         }
     }
 }
